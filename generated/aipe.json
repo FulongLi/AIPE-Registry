@@ -1,0 +1,1438 @@
+{
+  "capabilities": [
+    {
+      "capabilities": [
+        "guided-engineering-education",
+        "open-source-converter-labs"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Original Power Engineering learning paths, with power electronics as the v0.1 curriculum.",
+      "documentation": [
+        "README.md",
+        "docs/ecosystem-v0.1.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.academy",
+      "inputs": [
+        {
+          "description": "Local learner progress and demonstrated prerequisites.",
+          "name": "learner-evidence"
+        }
+      ],
+      "license": "CC-BY-4.0",
+      "maturity": "prototype",
+      "name": "AIPE Academy",
+      "outputs": [
+        {
+          "description": "Deterministic metadata, stable URLs and content hashes in generated/lessons.json.",
+          "name": "lesson-catalogue"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Academy",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "numerical-analysis"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "education",
+      "validation": {
+        "evidence": [
+          "tests/test_curriculum.py"
+        ],
+        "limitations": [
+          "Most curriculum stages remain outlines, not completed courses.",
+          "The buck lab is ideal analytical teaching, not hardware validation."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "engineering-state-schema",
+        "engineering-evidence-contracts",
+        "offline-state-validation"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "native"
+      },
+      "connectors": [],
+      "dependencies": [],
+      "description": "Versioned SI Engineering State schemas, evidence conventions and semantic interoperability contracts.",
+      "documentation": [
+        "README.md",
+        "docs/metadata.md",
+        "docs/architecture-v0.1.md",
+        "contracts/README.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "id": "aipe.core",
+      "inputs": [
+        {
+          "description": "Portable SI engineering context to validate.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Core",
+      "outputs": [
+        {
+          "description": "Structure, format, evidence reference and status consistency diagnostics; no physical validity claim.",
+          "name": "validation-diagnostics"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Core",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "schema-validation"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "standard",
+      "validation": {
+        "evidence": [
+          "tests/test_contract.py",
+          ".github/workflows/validate.yml"
+        ],
+        "limitations": [
+          "Schema and semantic checks do not prove engineering correctness or authenticate artifacts.",
+          "v0.1.0 schema URLs are logical identifiers until a release tag exists; resolve locally."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "engineering-orchestration",
+        "operating-point-analysis",
+        "converter-concept-calculation"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.registry",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Incrementally orchestrate evidence-linked engineering work through Core state and Registry capabilities while retaining existing PEA calculators and interfaces.",
+      "documentation": [
+        "README.md",
+        "docs/ecosystem-orchestration.md",
+        "pea/review/README.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.design-agent",
+      "inputs": [
+        {
+          "description": "Explicit requirements and evidence in Core v0.1 state.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        },
+        {
+          "description": "Complete generated capability index plus reviewed suitability assessments.",
+          "name": "registry"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Design Agent",
+      "outputs": [
+        {
+          "description": "Auditable selection with rejection reasons; external execution is deferred.",
+          "name": "capability-plan"
+        },
+        {
+          "description": "Copy of input state with an unreviewed analytical proposal and provenance.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Design-Agent",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "engineering-orchestration",
+            "operating-point-analysis",
+            "converter-concept-calculation"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Existing concept calculators and the new algebraic adapter do not establish physical validation or component suitability."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "agent",
+      "validation": {
+        "evidence": [
+          "tests/test_orchestration.py",
+          "tests/test_calculator.py",
+          "tests/test_optimizer.py"
+        ],
+        "limitations": [
+          "Technical suitability and fidelity require an explicit assessment; metadata alone is not an engineering guarantee.",
+          "Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.",
+          "Existing PEA calculator/UI APIs remain separate from the additive Core state path."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "research-evidence-planning",
+        "ieee-manuscript-production"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Evidence-linked research planning and IEEE venue-specific manuscript production.",
+      "documentation": [
+        "README.md",
+        "docs/aipe-integration.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "id": "aipe.ieee-paper-agent",
+      "inputs": [
+        {
+          "description": "Research scope, testable questions and venue selection.",
+          "name": "research-question"
+        },
+        {
+          "description": "Core evidence IDs mapped to manuscript evidence matrix.",
+          "name": "engineering-evidence"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "usable",
+      "name": "AIPE IEEE Paper Agent",
+      "outputs": [
+        {
+          "description": "LaTeX workspace, paper plan and static audit reports.",
+          "name": "manuscript-workspace"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-IEEE-Paper-Agent",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "numerical-analysis"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "agent",
+      "validation": {
+        "evidence": [
+          "tests/test_architecture.py"
+        ],
+        "limitations": [
+          "Semantic Core mapping only; no automatic state converter.",
+          "Static checks do not verify citation truth or compile a PDF.",
+          "Repository-wide licence is unresolved; third-party assets retain rights."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "magnetics-record-schema",
+        "magnetics-data-import",
+        "magnetics-data-validation"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Evidence-first magnetic material, geometry, winding, component, loss-model and measurement record scaffold with explicit SI units.",
+      "documentation": [
+        "README.md",
+        "docs/core-integration.md",
+        "references/README.md",
+        "LICENSING.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "id": "aipe.magnetics-database",
+      "inputs": [
+        {
+          "description": "Already normalized magnetic records with explicit evidence and SI units.",
+          "name": "magnetic-record"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "scaffold",
+      "name": "AIPE Magnetics Database",
+      "outputs": [
+        {
+          "description": "Review candidate with original-byte checksum and importer version.",
+          "name": "validated-import-candidate"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Magnetics-Database",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "magnetics-data-validation",
+            "magnetics-data-import"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "database",
+      "validation": {
+        "evidence": [
+          "tests/test_records.py",
+          ".github/workflows/validate.yml"
+        ],
+        "limitations": [
+          "No real manufacturer or measurement records bundled.",
+          "Core integration is documented mapping only; no executed Core export.",
+          "No field solver or measurement validation claimed.",
+          "Repository licence remains NOASSERTION pending owner decision."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "external-tool-discovery",
+        "external-tool-maintenance-audit"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "none"
+      },
+      "connectors": [],
+      "dependencies": [],
+      "description": "Community-curated external engineering tools with dated maintenance, licence and automation evidence.",
+      "documentation": [
+        "README.md",
+        "CONTRIBUTING.md",
+        "generated/audit.md"
+      ],
+      "domains": [
+        "power-electronics",
+        "power-engineering"
+      ],
+      "id": "aipe.open-source-catalogue",
+      "inputs": [
+        {
+          "description": "Reviewed public project metadata and HTTP observations collected only by opt-in refresh.",
+          "name": "upstream-evidence"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "usable",
+      "name": "Open Engineering Tool Catalogue",
+      "outputs": [
+        {
+          "description": "Deterministic generated/audit.json and generated/audit.md preserve evidence and historical entries.",
+          "name": "tool-audit"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/awesome-open-source-power-electronics",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "catalogue-validation"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python 3.10 or newer. Network refresh additionally uses the GitHub CLI; offline builds do not."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "catalogue",
+      "validation": {
+        "evidence": [
+          "tests/test_catalogue.py",
+          "generated/audit.md",
+          "catalogue/source-snapshot.json"
+        ],
+        "limitations": [
+          "No external solver or MCP execution validated. Catalogue inclusion does not imply AIPE support."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "ecosystem-presentation",
+        "academy-publication"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "none"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.registry",
+          "optional": false,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.academy",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Jekyll presentation and stable public URLs for Registry capabilities and Academy lessons.",
+      "documentation": [
+        "README.md",
+        "docs/ecosystem-v0.1.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.presentation",
+      "inputs": [
+        {
+          "description": "Deterministic generated/aipe.json and aipe.md from AIPE Registry.",
+          "name": "registry-index"
+        },
+        {
+          "description": "Validated lesson metadata, Markdown and assets from a pinned Academy revision.",
+          "name": "academy-catalogue"
+        }
+      ],
+      "license": "CC-BY-4.0",
+      "maturity": "prototype",
+      "name": "AIPE Labs Presentation",
+      "outputs": [
+        {
+          "description": "Static public capability endpoints and stable Academy URLs.",
+          "name": "public-website"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/Spirit-Connect-AIPE-Labs",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "numerical-analysis"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "static-site-generation"
+          ],
+          "id": "jekyll",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Build uses the repository Gemfile.lock; Ruby and Bundler required."
+          ],
+          "name": "Jekyll",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://jekyllrb.com/"
+        }
+      ],
+      "type": "presentation",
+      "validation": {
+        "evidence": [
+          "tests/test_sync.py",
+          ".github/workflows/validate-ecosystem.yml"
+        ],
+        "limitations": [
+          "Presentation validation does not validate engineering claims.",
+          "Deployment follows reviewed PR merges; no live deployment performed.",
+          "Registry initialization has a local-only baseline until upstream empty-repository permissions are resolved."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "capability-discovery",
+        "capability-manifest-validation",
+        "deterministic-registry-publication"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "none"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Discover and validate canonical AIPE capabilities and publish reproducible machine-readable and Markdown indexes.",
+      "documentation": [
+        "README.md",
+        "CONTRIBUTING.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.registry",
+      "inputs": [
+        {
+          "description": "Canonical repository aipe.yaml manifests.",
+          "name": "manifests"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Registry",
+      "outputs": [
+        {
+          "description": "Sorted aipe.json and aipe.md capability indexes.",
+          "name": "capability-index"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Registry",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "capability-discovery",
+            "capability-manifest-validation"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Validates metadata and dependency declarations; does not validate physical engineering results."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "registry",
+      "validation": {
+        "evidence": [
+          "tests/test_registry.py"
+        ],
+        "limitations": [
+          "Core and Engineering State version identifiers are recognized; Registry does not transform engineering states.",
+          "Staging snapshots may precede upstream merge; inspect sources/snapshots.lock.json before deployment.",
+          "Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "semiconductor-data",
+        "semiconductor-query",
+        "semiconductor-core-candidate-export"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Canonical V3 power semiconductor records with SI curves, source rights, evidence lineage and a conservative Core candidate adapter.",
+      "documentation": [
+        "README.md",
+        "docs/core-integration.md",
+        "docs/architecture.md",
+        "LICENSING.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "id": "aipe.semiconductor-database",
+      "inputs": [
+        {
+          "description": "Independent domain schema 3.0.0 device records.",
+          "name": "canonical-device"
+        },
+        {
+          "description": "Manufacturer models, explicit import mappings and measurement packages.",
+          "name": "raw-device-evidence"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "usable",
+      "name": "AIPE Semiconductor Database",
+      "outputs": [
+        {
+          "description": "Canonical V3 semiconductor data with provenance.",
+          "name": "device-record"
+        },
+        {
+          "description": "Candidate identity and source evidence for Engineering State 0.1.0.",
+          "name": "core-candidate",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/semiconductor.schema.json"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Semiconductor-Database",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "semiconductor-data-query",
+            "data-validation",
+            "core-candidate-export"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Physical models require separate validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "optional-export-consumption"
+          ],
+          "id": "plecs",
+          "interfaces": [
+            "file"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External licence required to run the commercial tool; exporting files does not execute it."
+          ],
+          "name": "PLECS",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.plexim.com/plecs"
+        },
+        {
+          "capabilities": [
+            "optional-export-consumption"
+          ],
+          "id": "matlab",
+          "interfaces": [
+            "file"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External licence required to run the commercial tool; exporting files does not execute it."
+          ],
+          "name": "MATLAB",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.mathworks.com/products/matlab.html"
+        }
+      ],
+      "type": "database",
+      "validation": {
+        "evidence": [
+          "tests/unit/test_core_export.py",
+          "tests/integration/test_repository_corpus.py",
+          ".github/workflows/tests.yml"
+        ],
+        "limitations": [
+          "Identity/source mapping only; detailed ratings and curves stay in V3 records.",
+          "Manufacturer model data is not converted into measured evidence.",
+          "Existing code and data rights remain NOASSERTION; see LICENSING.md."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "averaged-control-analysis",
+        "switching-circuit-simulation",
+        "mechanical-packaging",
+        "pcb-power-stage-review",
+        "field-analysis-problem-setup",
+        "digital-control-debugging"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [
+        {
+          "id": "freecad-mcp-neka-nat",
+          "license": "MIT",
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "repository": "https://github.com/neka-nat/freecad-mcp",
+          "security_notes": [
+            "RPC defaults to localhost; Python execution inherits process and filesystem privileges.",
+            "Pin a reviewed commit and dependencies; keep the RPC port local and use scratch documents."
+          ],
+          "status": "evaluated",
+          "supported_versions": [
+            "FreeCAD plus addon; no comprehensive upstream tested-version matrix established"
+          ],
+          "tool": "freecad",
+          "type": "mcp"
+        },
+        {
+          "id": "kicad-mcp-mixelpixx",
+          "license": "MIT",
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "repository": "https://github.com/mixelpixx/KiCAD-MCP-Server",
+          "security_notes": [
+            "May modify boards/libraries and spawn subprocesses; optional integrations have network access.",
+            "Pin a reviewed release, restrict workspace and disable unused services; independently review ERC/DRC."
+          ],
+          "status": "evaluated",
+          "supported_versions": [
+            "KiCad 9+; upstream quick start requires Node 18+ and Python 3.11+"
+          ],
+          "tool": "kicad",
+          "type": "mcp"
+        }
+      ],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows.",
+      "documentation": [
+        "README.md",
+        "docs/tool-policy.md",
+        "docs/core-mapping.md",
+        "skills.json",
+        "docs/validation.md"
+      ],
+      "domains": [
+        "power-electronics"
+      ],
+      "extensions": {
+        "aipe.skills": {
+          "catalogue": "skills.json",
+          "metadata_version": "0.1.0"
+        }
+      },
+      "id": "aipe.simulation-skills",
+      "inputs": [
+        {
+          "description": "Portable engineering context.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "prototype",
+      "name": "AIPE Simulation Skills",
+      "outputs": [
+        {
+          "description": "Model-specific numerical reports, netlists, engineering review or explicit unexecuted plans with evidence and limitations.",
+          "name": "analysis-artifacts"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "numerical-analysis"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python 3.10+ for examples and validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "control-analysis"
+          ],
+          "id": "python-control",
+          "interfaces": [
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Pinned 0.10.2 numerical example; averaged ideal CCM buck only."
+          ],
+          "name": "python-control",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://python-control.org/"
+        },
+        {
+          "capabilities": [
+            "switching-circuit-simulation"
+          ],
+          "id": "ngspice",
+          "interfaces": [
+            "cli",
+            "netlist"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Synthetic switched buck smoke example; model-specific device compatibility and convergence checks required."
+          ],
+          "name": "ngspice",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://ngspice.sourceforge.io/"
+        },
+        {
+          "capabilities": [
+            "mechanical-packaging"
+          ],
+          "id": "freecad",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Workflow scaffold; FreeCAD geometry lengths are millimetres; GUI-specific commands require a GUI."
+          ],
+          "name": "FreeCAD",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.freecad.org/"
+        },
+        {
+          "capabilities": [
+            "pcb-power-stage-review"
+          ],
+          "id": "kicad",
+          "interfaces": [
+            "cli",
+            "ipc",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Workflow scaffold; stable 9 CLI baseline and version-dependent IPC; not a safety certification."
+          ],
+          "name": "KiCad",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.kicad.org/"
+        },
+        {
+          "capabilities": [
+            "mesh-generation"
+          ],
+          "id": "gmsh",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Mesh generator; pair with a physics-appropriate solver."
+          ],
+          "name": "Gmsh",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://gmsh.info/"
+        },
+        {
+          "capabilities": [
+            "electrothermal-field-analysis"
+          ],
+          "id": "elmer",
+          "interfaces": [
+            "cli",
+            "sif"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Problem setup only; GPL/LGPL component terms and material data require review."
+          ],
+          "name": "Elmer FEM",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://github.com/ElmerCSC/elmerfem"
+        },
+        {
+          "capabilities": [
+            "electromagnetic-field-analysis"
+          ],
+          "id": "getdp",
+          "interfaces": [
+            "cli",
+            "pro"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Problem setup only; select a verified formulation and boundary conditions."
+          ],
+          "name": "GetDP",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://getdp.info/"
+        },
+        {
+          "capabilities": [
+            "structural-thermal-analysis"
+          ],
+          "id": "calculix",
+          "interfaces": [
+            "cli",
+            "inp"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Problem setup only; structural and thermal emphasis."
+          ],
+          "name": "CalculiX",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux"
+          ],
+          "url": "https://www.calculix.de/"
+        },
+        {
+          "capabilities": [
+            "high-frequency-em"
+          ],
+          "id": "openems",
+          "interfaces": [
+            "python",
+            "octave"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Problem setup only; FDTD is not equivalent to every quasi-static field solver."
+          ],
+          "name": "openEMS",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.openems.de/"
+        },
+        {
+          "capabilities": [
+            "switching-circuit-simulation"
+          ],
+          "id": "ltspice",
+          "interfaces": [
+            "batch",
+            "netlist"
+          ],
+          "licence_class": "free_proprietary",
+          "limitations": [
+            "Optional free proprietary variant; device-model distribution terms apply."
+          ],
+          "name": "LTspice",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html"
+        },
+        {
+          "capabilities": [
+            "power-electronics-simulation"
+          ],
+          "id": "plecs",
+          "interfaces": [
+            "scripting",
+            "xml-rpc"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External licence required for this optional variant; interface depends on product edition."
+          ],
+          "name": "PLECS",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.plexim.com/plecs"
+        },
+        {
+          "capabilities": [
+            "control-system-simulation"
+          ],
+          "id": "matlab-simulink",
+          "interfaces": [
+            "matlab",
+            "batch"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External MATLAB/Simulink and applicable toolbox licences required."
+          ],
+          "name": "MATLAB / Simulink",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.mathworks.com/products/simulink.html"
+        },
+        {
+          "capabilities": [
+            "switching-circuit-simulation"
+          ],
+          "id": "simetrix-simplis",
+          "interfaces": [
+            "scripting",
+            "netlist"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External licence required; product editions and POP capabilities differ."
+          ],
+          "name": "SIMetrix / SIMPLIS",
+          "optional": true,
+          "platforms": [
+            "windows"
+          ],
+          "url": "https://www.simetrix.co.uk/"
+        },
+        {
+          "capabilities": [
+            "multiphysics-simulation"
+          ],
+          "id": "ansys",
+          "interfaces": [
+            "scripting"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External product/module licences required; retained workflow not executed."
+          ],
+          "name": "ANSYS",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux"
+          ],
+          "url": "https://www.ansys.com/"
+        },
+        {
+          "capabilities": [
+            "multiphysics-simulation"
+          ],
+          "id": "comsol",
+          "interfaces": [
+            "java-api",
+            "batch"
+          ],
+          "licence_class": "commercial",
+          "limitations": [
+            "External product/module licences required; retained workflow not executed."
+          ],
+          "name": "COMSOL",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.comsol.com/"
+        }
+      ],
+      "type": "skill_collection",
+      "validation": {
+        "evidence": [
+          "tests/test_open_examples.py",
+          "tests/test_metadata.py",
+          "docs/validation.md"
+        ],
+        "limitations": [
+          "Local Python numerical tests passed; ngspice requires separate installed runtime and is run in Ubuntu CI.",
+          "FreeCAD, KiCad, FEA solvers and MCP connectors not installed or executed.",
+          "No measurements or full Engineering State round-trip adapter claimed."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "schematic-generation",
+        "circuit-connectivity-validation"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Render explicit electrical Circuit IR into connectivity-checked SVG schematic artifacts with provenance.",
+      "documentation": [
+        "README.md",
+        "docs/engineering-state.md",
+        "docs/architecture.md"
+      ],
+      "domains": [
+        "power-electronics",
+        "circuit-documentation"
+      ],
+      "id": "aipe.sketch",
+      "inputs": [
+        {
+          "description": "Explicit versioned Netlist electrical graph.",
+          "name": "circuit-ir"
+        },
+        {
+          "description": "Core state with an explicit aipe.sketch circuit extension.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "usable",
+      "name": "AIPE Sketch",
+      "outputs": [
+        {
+          "description": "SVG with unchanged electrical connectivity.",
+          "name": "schematic-svg"
+        },
+        {
+          "description": "Hash-linked artifact and source-state metadata.",
+          "name": "provenance"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Sketch",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "schematic-generation"
+          ],
+          "id": "python",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Drawing connectivity validation is not physical validation."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "svg-editing"
+          ],
+          "id": "inkscape",
+          "interfaces": [
+            "cli",
+            "gui"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Manual editing may invalidate original connectivity and artifact hashes."
+          ],
+          "name": "Inkscape",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://inkscape.org/"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_state.py",
+          "tests/test_pipeline.py"
+        ],
+        "limitations": [
+          "Explicit Circuit IR and complete Core validation are required separately; no device sizing or physical results are inferred."
+        ],
+        "status": "tested"
+      }
+    }
+  ],
+  "schema_version": "0.1.0"
+}

@@ -1,0 +1,37 @@
+schema_version: 0.1.0
+id: aipe.registry
+name: AIPE Registry
+type: registry
+domains: [power-engineering, power-electronics]
+description: Discover and validate canonical AIPE capabilities and publish reproducible machine-readable and Markdown indexes.
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Registry
+license: MIT
+capabilities: [capability-discovery, capability-manifest-validation, deterministic-registry-publication]
+inputs:
+  - {name: manifests, description: Canonical repository aipe.yaml manifests.}
+outputs:
+  - {name: capability-index, description: Sorted aipe.json and aipe.md capability indexes.}
+dependencies:
+  - {id: aipe.core, version: 0.1.x, optional: false}
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: none}
+tools:
+  - id: python
+    name: Python
+    capabilities: [capability-discovery, capability-manifest-validation]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [linux, windows, macos]
+    url: https://www.python.org/
+    limitations: [Validates metadata and dependency declarations; does not validate physical engineering results.]
+connectors: []
+validation:
+  status: tested
+  evidence: [tests/test_registry.py]
+  limitations:
+    - Core and Engineering State version identifiers are recognized; Registry does not transform engineering states.
+    - Staging snapshots may precede upstream merge; inspect sources/snapshots.lock.json before deployment.
+    - Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit.
+documentation: [README.md, CONTRIBUTING.md]
