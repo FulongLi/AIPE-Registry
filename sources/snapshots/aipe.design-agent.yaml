@@ -1,0 +1,32 @@
+schema_version: 0.1.0
+id: aipe.design-agent
+name: AIPE Design Agent
+type: agent
+domains: [power-engineering, power-electronics]
+description: Incrementally orchestrate evidence-linked engineering work through Core state and Registry capabilities while retaining existing PEA calculators and interfaces.
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Design-Agent
+license: MIT
+capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation]
+inputs:
+  - {name: engineering-state, description: Explicit requirements and evidence in Core v0.1 state., schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json'}
+  - {name: registry, description: Complete generated capability index plus reviewed suitability assessments.}
+outputs:
+  - {name: capability-plan, description: Auditable selection with rejection reasons; external execution is deferred.}
+  - {name: engineering-state, description: Copy of input state with an unreviewed analytical proposal and provenance., schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json'}
+dependencies:
+  - {id: aipe.core, version: 0.1.x, optional: false}
+  - {id: aipe.registry, version: 0.1.x, optional: false}
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: mapped}
+tools:
+  - {id: python, name: Python, capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation], licence_class: open_source, optional: false, interfaces: [cli, python], platforms: [linux, windows, macos], url: 'https://www.python.org/', limitations: ['Existing concept calculators and the new algebraic adapter do not establish physical validation or component suitability.']}
+connectors: []
+validation:
+  status: tested
+  evidence: [tests/test_orchestration.py, tests/test_calculator.py, tests/test_optimizer.py]
+  limitations:
+    - Technical suitability and fidelity require an explicit assessment; metadata alone is not an engineering guarantee.
+    - Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.
+    - Existing PEA calculator/UI APIs remain separate from the additive Core state path.
+documentation: [README.md, docs/ecosystem-orchestration.md, pea/review/README.md]

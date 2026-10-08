@@ -1,0 +1,38 @@
+schema_version: 0.1.0
+id: aipe.open-source-catalogue
+name: Open Engineering Tool Catalogue
+type: catalogue
+domains: [power-electronics, power-engineering]
+description: Community-curated external engineering tools with dated maintenance, licence and automation evidence.
+status: active
+maturity: usable
+repository: https://github.com/FulongLi/awesome-open-source-power-electronics
+license: NOASSERTION
+capabilities: [external-tool-discovery, external-tool-maintenance-audit]
+inputs:
+  - name: upstream-evidence
+    description: Reviewed public project metadata and HTTP observations collected only by opt-in refresh.
+outputs:
+  - name: tool-audit
+    description: Deterministic generated/audit.json and generated/audit.md preserve evidence and historical entries.
+dependencies: []
+compatibility:
+  core: 0.1.x
+  engineering_state: 0.1.x
+  integration: none
+tools:
+  - id: python
+    name: Python
+    capabilities: [catalogue-validation]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli]
+    platforms: [windows, linux, macos]
+    url: https://www.python.org/
+    limitations: [Python 3.10 or newer. Network refresh additionally uses the GitHub CLI; offline builds do not.]
+connectors: []
+validation:
+  status: tested
+  evidence: [tests/test_catalogue.py, generated/audit.md, catalogue/source-snapshot.json]
+  limitations: [No external solver or MCP execution validated. Catalogue inclusion does not imply AIPE support.]
+documentation: [README.md, CONTRIBUTING.md, generated/audit.md]

@@ -1,0 +1,463 @@
+{
+  "schema_version": "0.1.0",
+  "id": "aipe.simulation-skills",
+  "name": "AIPE Simulation Skills",
+  "type": "skill_collection",
+  "domains": [
+    "power-electronics"
+  ],
+  "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows.",
+  "status": "active",
+  "maturity": "prototype",
+  "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
+  "license": "NOASSERTION",
+  "capabilities": [
+    "averaged-control-analysis",
+    "switching-circuit-simulation",
+    "mechanical-packaging",
+    "pcb-power-stage-review",
+    "field-analysis-problem-setup",
+    "digital-control-debugging"
+  ],
+  "inputs": [
+    {
+      "name": "engineering-state",
+      "description": "Portable engineering context.",
+      "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "analysis-artifacts",
+      "description": "Model-specific numerical reports, netlists, engineering review or explicit unexecuted plans with evidence and limitations."
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "aipe.core",
+      "version": "0.1.x",
+      "optional": false
+    }
+  ],
+  "compatibility": {
+    "core": "0.1.x",
+    "engineering_state": "0.1.x",
+    "integration": "mapped"
+  },
+  "tools": [
+    {
+      "id": "python",
+      "name": "Python",
+      "capabilities": [
+        "numerical-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": false,
+      "interfaces": [
+        "cli",
+        "python"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.python.org/",
+      "limitations": [
+        "Python 3.10+ for examples and validation."
+      ]
+    },
+    {
+      "id": "python-control",
+      "name": "python-control",
+      "capabilities": [
+        "control-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "python"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://python-control.org/",
+      "limitations": [
+        "Pinned 0.10.2 numerical example; averaged ideal CCM buck only."
+      ]
+    },
+    {
+      "id": "ngspice",
+      "name": "ngspice",
+      "capabilities": [
+        "switching-circuit-simulation"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "netlist"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://ngspice.sourceforge.io/",
+      "limitations": [
+        "Synthetic switched buck smoke example; model-specific device compatibility and convergence checks required."
+      ]
+    },
+    {
+      "id": "freecad",
+      "name": "FreeCAD",
+      "capabilities": [
+        "mechanical-packaging"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "python",
+        "cli"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.freecad.org/",
+      "limitations": [
+        "Workflow scaffold; FreeCAD geometry lengths are millimetres; GUI-specific commands require a GUI."
+      ]
+    },
+    {
+      "id": "kicad",
+      "name": "KiCad",
+      "capabilities": [
+        "pcb-power-stage-review"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "ipc",
+        "python"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.kicad.org/",
+      "limitations": [
+        "Workflow scaffold; stable 9 CLI baseline and version-dependent IPC; not a safety certification."
+      ]
+    },
+    {
+      "id": "gmsh",
+      "name": "Gmsh",
+      "capabilities": [
+        "mesh-generation"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "python"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://gmsh.info/",
+      "limitations": [
+        "Mesh generator; pair with a physics-appropriate solver."
+      ]
+    },
+    {
+      "id": "elmer",
+      "name": "Elmer FEM",
+      "capabilities": [
+        "electrothermal-field-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "sif"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://github.com/ElmerCSC/elmerfem",
+      "limitations": [
+        "Problem setup only; GPL/LGPL component terms and material data require review."
+      ]
+    },
+    {
+      "id": "getdp",
+      "name": "GetDP",
+      "capabilities": [
+        "electromagnetic-field-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "pro"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://getdp.info/",
+      "limitations": [
+        "Problem setup only; select a verified formulation and boundary conditions."
+      ]
+    },
+    {
+      "id": "calculix",
+      "name": "CalculiX",
+      "capabilities": [
+        "structural-thermal-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "cli",
+        "inp"
+      ],
+      "platforms": [
+        "windows",
+        "linux"
+      ],
+      "url": "https://www.calculix.de/",
+      "limitations": [
+        "Problem setup only; structural and thermal emphasis."
+      ]
+    },
+    {
+      "id": "openems",
+      "name": "openEMS",
+      "capabilities": [
+        "high-frequency-em"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "python",
+        "octave"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.openems.de/",
+      "limitations": [
+        "Problem setup only; FDTD is not equivalent to every quasi-static field solver."
+      ]
+    },
+    {
+      "id": "ltspice",
+      "name": "LTspice",
+      "capabilities": [
+        "switching-circuit-simulation"
+      ],
+      "licence_class": "free_proprietary",
+      "optional": true,
+      "interfaces": [
+        "batch",
+        "netlist"
+      ],
+      "platforms": [
+        "windows",
+        "macos"
+      ],
+      "url": "https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html",
+      "limitations": [
+        "Optional free proprietary variant; device-model distribution terms apply."
+      ]
+    },
+    {
+      "id": "plecs",
+      "name": "PLECS",
+      "capabilities": [
+        "power-electronics-simulation"
+      ],
+      "licence_class": "commercial",
+      "optional": true,
+      "interfaces": [
+        "scripting",
+        "xml-rpc"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.plexim.com/plecs",
+      "limitations": [
+        "External licence required for this optional variant; interface depends on product edition."
+      ]
+    },
+    {
+      "id": "matlab-simulink",
+      "name": "MATLAB / Simulink",
+      "capabilities": [
+        "control-system-simulation"
+      ],
+      "licence_class": "commercial",
+      "optional": true,
+      "interfaces": [
+        "matlab",
+        "batch"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.mathworks.com/products/simulink.html",
+      "limitations": [
+        "External MATLAB/Simulink and applicable toolbox licences required."
+      ]
+    },
+    {
+      "id": "simetrix-simplis",
+      "name": "SIMetrix / SIMPLIS",
+      "capabilities": [
+        "switching-circuit-simulation"
+      ],
+      "licence_class": "commercial",
+      "optional": true,
+      "interfaces": [
+        "scripting",
+        "netlist"
+      ],
+      "platforms": [
+        "windows"
+      ],
+      "url": "https://www.simetrix.co.uk/",
+      "limitations": [
+        "External licence required; product editions and POP capabilities differ."
+      ]
+    },
+    {
+      "id": "ansys",
+      "name": "ANSYS",
+      "capabilities": [
+        "multiphysics-simulation"
+      ],
+      "licence_class": "commercial",
+      "optional": true,
+      "interfaces": [
+        "scripting"
+      ],
+      "platforms": [
+        "windows",
+        "linux"
+      ],
+      "url": "https://www.ansys.com/",
+      "limitations": [
+        "External product/module licences required; retained workflow not executed."
+      ]
+    },
+    {
+      "id": "comsol",
+      "name": "COMSOL",
+      "capabilities": [
+        "multiphysics-simulation"
+      ],
+      "licence_class": "commercial",
+      "optional": true,
+      "interfaces": [
+        "java-api",
+        "batch"
+      ],
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "url": "https://www.comsol.com/",
+      "limitations": [
+        "External product/module licences required; retained workflow not executed."
+      ]
+    }
+  ],
+  "connectors": [
+    {
+      "id": "freecad-mcp-neka-nat",
+      "tool": "freecad",
+      "repository": "https://github.com/neka-nat/freecad-mcp",
+      "license": "MIT",
+      "status": "evaluated",
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "security_notes": [
+        "RPC defaults to localhost; Python execution inherits process and filesystem privileges.",
+        "Pin a reviewed commit and dependencies; keep the RPC port local and use scratch documents."
+      ],
+      "type": "mcp",
+      "supported_versions": [
+        "FreeCAD plus addon; no comprehensive upstream tested-version matrix established"
+      ]
+    },
+    {
+      "id": "kicad-mcp-mixelpixx",
+      "tool": "kicad",
+      "repository": "https://github.com/mixelpixx/KiCAD-MCP-Server",
+      "license": "MIT",
+      "status": "evaluated",
+      "platforms": [
+        "windows",
+        "linux",
+        "macos"
+      ],
+      "security_notes": [
+        "May modify boards/libraries and spawn subprocesses; optional integrations have network access.",
+        "Pin a reviewed release, restrict workspace and disable unused services; independently review ERC/DRC."
+      ],
+      "type": "mcp",
+      "supported_versions": [
+        "KiCad 9+; upstream quick start requires Node 18+ and Python 3.11+"
+      ]
+    }
+  ],
+  "validation": {
+    "status": "tested",
+    "evidence": [
+      "tests/test_open_examples.py",
+      "tests/test_metadata.py",
+      "docs/validation.md"
+    ],
+    "limitations": [
+      "Local Python numerical tests passed; ngspice requires separate installed runtime and is run in Ubuntu CI.",
+      "FreeCAD, KiCad, FEA solvers and MCP connectors not installed or executed.",
+      "No measurements or full Engineering State round-trip adapter claimed."
+    ]
+  },
+  "documentation": [
+    "README.md",
+    "docs/tool-policy.md",
+    "docs/core-mapping.md",
+    "skills.json",
+    "docs/validation.md"
+  ],
+  "extensions": {
+    "aipe.skills": {
+      "catalogue": "skills.json",
+      "metadata_version": "0.1.0"
+    }
+  }
+}

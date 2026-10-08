@@ -1,0 +1,15 @@
+schema_version: 0.1.0
+# Branch refs are explicitly staging refs. refresh.py --remote resolves them to
+# immutable commits in snapshots.lock.json before reading any manifest.
+repositories:
+  - {id: aipe.core, repository: 'https://github.com/FulongLi/AIPE-Core', ref: codex/aipe-ecosystem-v0.1, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.registry, repository: 'https://github.com/FulongLi/AIPE-Registry', ref: codex/aipe-ecosystem-v0.1, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.magnetics-database, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Database', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.simulation-skills, repository: 'https://github.com/FulongLi/AIPE-Simulation-Skills', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.sketch, repository: 'https://github.com/FulongLi/AIPE-Sketch', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.design-agent, repository: 'https://github.com/FulongLi/AIPE-Design-Agent', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.academy, repository: 'https://github.com/FulongLi/AIPE-Academy', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.ieee-paper-agent, repository: 'https://github.com/FulongLi/AIPE-IEEE-Paper-Agent', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.presentation, repository: 'https://github.com/FulongLi/Spirit-Connect-AIPE-Labs', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.open-source-catalogue, repository: 'https://github.com/FulongLi/awesome-open-source-power-electronics', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}

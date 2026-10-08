@@ -1,0 +1,80 @@
+{
+  "schema_version": "0.1.0",
+  "id": "aipe.core",
+  "name": "AIPE Core",
+  "type": "standard",
+  "domains": [
+    "power-electronics"
+  ],
+  "description": "Versioned SI Engineering State schemas, evidence conventions and semantic interoperability contracts.",
+  "status": "experimental",
+  "maturity": "prototype",
+  "repository": "https://github.com/FulongLi/AIPE-Core",
+  "license": "MIT",
+  "capabilities": [
+    "engineering-state-schema",
+    "engineering-evidence-contracts",
+    "offline-state-validation"
+  ],
+  "inputs": [
+    {
+      "name": "engineering-state",
+      "description": "Portable SI engineering context to validate.",
+      "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "validation-diagnostics",
+      "description": "Structure, format, evidence reference and status consistency diagnostics; no physical validity claim."
+    }
+  ],
+  "dependencies": [],
+  "compatibility": {
+    "core": "0.1.x",
+    "engineering_state": "0.1.x",
+    "integration": "native"
+  },
+  "tools": [
+    {
+      "id": "python",
+      "name": "Python",
+      "capabilities": [
+        "schema-validation"
+      ],
+      "licence_class": "open_source",
+      "optional": false,
+      "interfaces": [
+        "cli",
+        "python"
+      ],
+      "platforms": [
+        "linux",
+        "windows",
+        "macos"
+      ],
+      "url": "https://www.python.org/",
+      "limitations": [
+        "Physical models require separate validation."
+      ]
+    }
+  ],
+  "connectors": [],
+  "validation": {
+    "status": "tested",
+    "evidence": [
+      "tests/test_contract.py",
+      ".github/workflows/validate.yml"
+    ],
+    "limitations": [
+      "Schema and semantic checks do not prove engineering correctness or authenticate artifacts.",
+      "v0.1.0 schema URLs are logical identifiers until a release tag exists; resolve locally."
+    ]
+  },
+  "documentation": [
+    "README.md",
+    "docs/metadata.md",
+    "docs/architecture-v0.1.md",
+    "contracts/README.md"
+  ]
+}

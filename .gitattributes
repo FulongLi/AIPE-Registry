@@ -1,0 +1,4 @@
+# Snapshot hashes cover exact source bytes; never rewrite their line endings.
+sources/snapshots/*.yaml -text whitespace=cr-at-eol
+generated/* text eol=lf
+sources/snapshots.lock.json text eol=lf

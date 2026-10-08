@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1.0",
+  "id": "aipe.academy",
+  "name": "AIPE Academy",
+  "type": "education",
+  "domains": [
+    "power-engineering",
+    "power-electronics"
+  ],
+  "description": "Original Power Engineering learning paths, with power electronics as the v0.1 curriculum.",
+  "status": "active",
+  "maturity": "prototype",
+  "repository": "https://github.com/FulongLi/AIPE-Academy",
+  "license": "CC-BY-4.0",
+  "capabilities": [
+    "guided-engineering-education",
+    "open-source-converter-labs"
+  ],
+  "inputs": [
+    {
+      "name": "learner-evidence",
+      "description": "Local learner progress and demonstrated prerequisites."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "lesson-catalogue",
+      "description": "Deterministic metadata, stable URLs and content hashes in generated/lessons.json."
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "aipe.core",
+      "version": "0.1.x",
+      "optional": false
+    }
+  ],
+  "compatibility": {
+    "core": "0.1.x",
+    "engineering_state": "0.1.x",
+    "integration": "mapped"
+  },
+  "tools": [
+    {
+      "id": "python",
+      "name": "Python",
+      "capabilities": [
+        "numerical-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": false,
+      "interfaces": [
+        "cli",
+        "python"
+      ],
+      "platforms": [
+        "linux",
+        "windows",
+        "macos"
+      ],
+      "url": "https://www.python.org/",
+      "limitations": [
+        "Physical models require separate validation."
+      ]
+    }
+  ],
+  "connectors": [],
+  "validation": {
+    "status": "tested",
+    "evidence": [
+      "tests/test_curriculum.py"
+    ],
+    "limitations": [
+      "Most curriculum stages remain outlines, not completed courses.",
+      "The buck lab is ideal analytical teaching, not hardware validation."
+    ]
+  },
+  "documentation": [
+    "README.md",
+    "docs/ecosystem-v0.1.md"
+  ]
+}

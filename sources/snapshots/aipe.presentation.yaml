@@ -1,0 +1,114 @@
+{
+  "schema_version": "0.1.0",
+  "id": "aipe.presentation",
+  "name": "AIPE Labs Presentation",
+  "type": "presentation",
+  "domains": [
+    "power-engineering",
+    "power-electronics"
+  ],
+  "description": "Jekyll presentation and stable public URLs for Registry capabilities and Academy lessons.",
+  "status": "active",
+  "maturity": "prototype",
+  "repository": "https://github.com/FulongLi/Spirit-Connect-AIPE-Labs",
+  "license": "CC-BY-4.0",
+  "capabilities": [
+    "ecosystem-presentation",
+    "academy-publication"
+  ],
+  "inputs": [
+    {
+      "name": "registry-index",
+      "description": "Deterministic generated/aipe.json and aipe.md from AIPE Registry."
+    },
+    {
+      "name": "academy-catalogue",
+      "description": "Validated lesson metadata, Markdown and assets from a pinned Academy revision."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "public-website",
+      "description": "Static public capability endpoints and stable Academy URLs."
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "aipe.registry",
+      "version": "0.1.x",
+      "optional": false
+    },
+    {
+      "id": "aipe.academy",
+      "version": "0.1.x",
+      "optional": false
+    }
+  ],
+  "compatibility": {
+    "core": "0.1.x",
+    "engineering_state": "0.1.x",
+    "integration": "none"
+  },
+  "tools": [
+    {
+      "id": "python",
+      "name": "Python",
+      "capabilities": [
+        "numerical-analysis"
+      ],
+      "licence_class": "open_source",
+      "optional": false,
+      "interfaces": [
+        "cli",
+        "python"
+      ],
+      "platforms": [
+        "linux",
+        "windows",
+        "macos"
+      ],
+      "url": "https://www.python.org/",
+      "limitations": [
+        "Physical models require separate validation."
+      ]
+    },
+    {
+      "id": "jekyll",
+      "name": "Jekyll",
+      "capabilities": [
+        "static-site-generation"
+      ],
+      "licence_class": "open_source",
+      "optional": false,
+      "interfaces": [
+        "cli"
+      ],
+      "platforms": [
+        "linux",
+        "windows",
+        "macos"
+      ],
+      "url": "https://jekyllrb.com/",
+      "limitations": [
+        "Build uses the repository Gemfile.lock; Ruby and Bundler required."
+      ]
+    }
+  ],
+  "connectors": [],
+  "validation": {
+    "status": "tested",
+    "evidence": [
+      "tests/test_sync.py",
+      ".github/workflows/validate-ecosystem.yml"
+    ],
+    "limitations": [
+      "Presentation validation does not validate engineering claims.",
+      "Deployment follows reviewed PR merges; no live deployment performed.",
+      "Registry initialization has a local-only baseline until upstream empty-repository permissions are resolved."
+    ]
+  },
+  "documentation": [
+    "README.md",
+    "docs/ecosystem-v0.1.md"
+  ]
+}
