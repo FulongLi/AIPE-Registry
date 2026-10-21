@@ -58,9 +58,9 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Required clearance and creepage values are caller inputs; no compliance with any standard is asserted.
 - Limitation: TDK E65/32/27 and Wolfspeed TO-247-4L dimensions are nominal values transcribed from the cited data sheets and must be verified against the current revisions.
 - Limitation: No Engineering State adapter yet; integration with AIPE Core is planned, not implemented.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `docs/parameters.md`
-- Documentation staged locally (publication pending): `examples/dab-10kw/README.md`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b544536363ce298dcef74f7c8970d917acc9ce41/README.md)
+- [Documentation: docs/parameters.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b544536363ce298dcef74f7c8970d917acc9ce41/docs/parameters.md)
+- [Documentation: examples/dab-10kw/README.md](https://github.com/FulongLi/AIPE-CAD-Agent/blob/b544536363ce298dcef74f7c8970d917acc9ce41/examples/dab-10kw/README.md)
 
 ## AIPE Core
 
@@ -73,10 +73,10 @@ Licence: `MIT`. Validation: `tested`.
 - [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
 - Limitation: Schema and semantic checks do not prove engineering correctness or authenticate artifacts.
 - Limitation: v0.1.0 schema URLs are logical identifiers until a release tag exists; resolve locally.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `docs/metadata.md`
-- Documentation staged locally (publication pending): `docs/architecture-v0.1.md`
-- Documentation staged locally (publication pending): `contracts/README.md`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Core/blob/4e664f03df1e294fefc169244bf1223c7352e2be/README.md)
+- [Documentation: docs/metadata.md](https://github.com/FulongLi/AIPE-Core/blob/4e664f03df1e294fefc169244bf1223c7352e2be/docs/metadata.md)
+- [Documentation: docs/architecture-v0.1.md](https://github.com/FulongLi/AIPE-Core/blob/4e664f03df1e294fefc169244bf1223c7352e2be/docs/architecture-v0.1.md)
+- [Documentation: contracts/README.md](https://github.com/FulongLi/AIPE-Core/blob/4e664f03df1e294fefc169244bf1223c7352e2be/contracts/README.md)
 
 ## AIPE Design Agent
 
@@ -91,10 +91,10 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.
 - Limitation: Existing PEA calculator/UI APIs remain separate from the additive Core state path.
 - Limitation: pea.thermal results are analytical correlations (natural/forced convection, cold plate, spreading, Stage A Pareto screening) with stated validity ranges; they are not CFD, FEM or measured values and need the sibling HeatSinkOptimisation checkout.
-- [Documentation: README.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/8e81547c745324b3dac2684146f68e0fc706f9bf/README.md)
-- [Documentation: docs/ecosystem-orchestration.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/8e81547c745324b3dac2684146f68e0fc706f9bf/docs/ecosystem-orchestration.md)
-- [Documentation: pea/review/README.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/8e81547c745324b3dac2684146f68e0fc706f9bf/pea/review/README.md)
-- [Documentation: CONTRIBUTING.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/8e81547c745324b3dac2684146f68e0fc706f9bf/CONTRIBUTING.md)
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/614ecd50b4b4763da325b63458a6524a01ad2821/README.md)
+- [Documentation: docs/ecosystem-orchestration.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/614ecd50b4b4763da325b63458a6524a01ad2821/docs/ecosystem-orchestration.md)
+- [Documentation: pea/review/README.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/614ecd50b4b4763da325b63458a6524a01ad2821/pea/review/README.md)
+- [Documentation: CONTRIBUTING.md](https://github.com/FulongLi/AIPE-Design-Agent/blob/614ecd50b4b4763da325b63458a6524a01ad2821/CONTRIBUTING.md)
 
 ## AIPE Doc
 
@@ -108,9 +108,9 @@ Licence: `NOASSERTION`. Validation: `schema_validated`.
 - Limitation: check.mjs validates local links, ids and language pairs of the shipped templates; it does not validate engineering content.
 - Limitation: PDF export relies on the browser print engine; no automated PDF generation is included.
 - Limitation: Repository content has no declared licence (NOASSERTION); brand assets are AIPE Labs material.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `docs/guide.html`
-- Documentation staged locally (publication pending): `templates/report-engineering.html`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/README.md)
+- [Documentation: docs/guide.html](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/docs/guide.html)
+- [Documentation: templates/report-engineering.html](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/templates/report-engineering.html)
 
 ## AIPE Field Simulation
 
@@ -128,10 +128,10 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Benchmarks are verified against closed-form solutions only; no measured validation of any transformer or heat-sink result.
 - Limitation: The transformer AC winding-loss factor uses a homogenised solid-block conductivity and is an approximation indicator, not a Litz/foil loss prediction; 3-D transformer models are not provided.
 - Limitation: CFD (OpenFOAM) is blocked on this platform; heat-sink film coefficients are supplied values.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `results/benchmarks.md`
-- Documentation staged locally (publication pending): `docs/jobs/openfoam-heatsink-cfd-job.md`
-- Documentation staged locally (publication pending): `LICENSE`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Field-Simulation/blob/9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8/README.md)
+- [Documentation: results/benchmarks.md](https://github.com/FulongLi/AIPE-Field-Simulation/blob/9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8/results/benchmarks.md)
+- [Documentation: docs/jobs/openfoam-heatsink-cfd-job.md](https://github.com/FulongLi/AIPE-Field-Simulation/blob/9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8/docs/jobs/openfoam-heatsink-cfd-job.md)
+- [Documentation: LICENSE](https://github.com/FulongLi/AIPE-Field-Simulation/blob/9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8/LICENSE)
 
 ## AIPE IEEE Paper Agent
 
@@ -166,21 +166,21 @@ Licence: `NOASSERTION`. Validation: `tested`.
 - Limitation: Material and core parameters are datasheet-derived with locators and remain review_status unreviewed until an owner review.
 - Limitation: No third-party datasets are redistributed; adapters download or import on demand subject to each source licence.
 - Limitation: Repository licence remains NOASSERTION pending owner decision.
-- [Documentation: README.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/README.md)
-- [Documentation: CHANGELOG.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/CHANGELOG.md)
-- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/architecture.md)
-- [Documentation: docs/audit-v0.1.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/audit-v0.1.md)
-- [Documentation: docs/data-standard-v0.2.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/data-standard-v0.2.md)
-- [Documentation: docs/models.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/models.md)
-- [Documentation: docs/verification.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/verification.md)
-- [Documentation: docs/api.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/api.md)
-- [Documentation: docs/mcp.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/mcp.md)
-- [Documentation: docs/plugins.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/plugins.md)
-- [Documentation: docs/core-integration.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/core-integration.md)
-- [Documentation: docs/sources.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/sources.md)
-- [Documentation: docs/demo-dab-10kw.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/demo-dab-10kw.md)
-- [Documentation: docs/waveform-informed-design.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/docs/waveform-informed-design.md)
-- [Documentation: LICENSING.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/617e9005fc8a418c90ffa99f34dba5068412478e/LICENSING.md)
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/README.md)
+- [Documentation: CHANGELOG.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/CHANGELOG.md)
+- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/architecture.md)
+- [Documentation: docs/audit-v0.1.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/audit-v0.1.md)
+- [Documentation: docs/data-standard-v0.2.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/data-standard-v0.2.md)
+- [Documentation: docs/models.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/models.md)
+- [Documentation: docs/verification.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/verification.md)
+- [Documentation: docs/api.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/api.md)
+- [Documentation: docs/mcp.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/mcp.md)
+- [Documentation: docs/plugins.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/plugins.md)
+- [Documentation: docs/core-integration.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/core-integration.md)
+- [Documentation: docs/sources.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/sources.md)
+- [Documentation: docs/demo-dab-10kw.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/demo-dab-10kw.md)
+- [Documentation: docs/waveform-informed-design.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/docs/waveform-informed-design.md)
+- [Documentation: LICENSING.md](https://github.com/FulongLi/AIPE-Magnetics-Database/blob/46c6afc1fb24eba6659b4ad38bc302589a86026e/LICENSING.md)
 
 ## Open Engineering Tool Catalogue
 
@@ -210,15 +210,15 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Zero native ERC/DRC findings are statements about the generated files under the recorded rule set; they establish neither electrical safety nor insulation compliance nor manufacturability. Insulation-coordination values are IEC 60664-1 reference inputs labelled to-be-reviewed.
 - Limitation: Routing is a deterministic grid-router proposal; incomplete routings are reported as unresolved connections and remain visible in the DRC reports (see docs/dab-10kw/review-report.md for the DAB-V1 status).
 - Limitation: Several pin tables and the controlCARD contact map of the DAB-V1 example are transcribed assumptions recorded in automation/dab_v1/parts.py and examples/dab-10kw/requirements/interfaces.yaml.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `docs/architecture.md`
-- Documentation staged locally (publication pending): `docs/agent-workflow.md`
-- Documentation staged locally (publication pending): `docs/pcb-design-rules.md`
-- Documentation staged locally (publication pending): `docs/knowledge-system.md`
-- Documentation staged locally (publication pending): `docs/dab-10kw/architecture-review.md`
-- Documentation staged locally (publication pending): `docs/dab-10kw/review-report.md`
-- Documentation staged locally (publication pending): `examples/dab-10kw/README.md`
-- Documentation staged locally (publication pending): `examples/sic-buck-400v-200v-5kw-v3/README.md`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/README.md)
+- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/architecture.md)
+- [Documentation: docs/agent-workflow.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/agent-workflow.md)
+- [Documentation: docs/pcb-design-rules.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/pcb-design-rules.md)
+- [Documentation: docs/knowledge-system.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/knowledge-system.md)
+- [Documentation: docs/dab-10kw/architecture-review.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/dab-10kw/architecture-review.md)
+- [Documentation: docs/dab-10kw/review-report.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/docs/dab-10kw/review-report.md)
+- [Documentation: examples/dab-10kw/README.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/examples/dab-10kw/README.md)
+- [Documentation: examples/sic-buck-400v-200v-5kw-v3/README.md](https://github.com/FulongLi/AIPE-PCB-Agent/blob/2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12/examples/sic-buck-400v-200v-5kw-v3/README.md)
 
 ## AIPE Labs Presentation
 
@@ -233,8 +233,8 @@ Licence: `CC-BY-4.0`. Validation: `tested`.
 - Limitation: Presentation validation does not validate engineering claims.
 - Limitation: Deployment follows reviewed PR merges; no live deployment performed.
 - Limitation: Registry initialization has a local-only baseline until upstream empty-repository permissions are resolved.
-- [Documentation: README.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/1d4c0680b9711dafe038a94058380043faa5f507/README.md)
-- [Documentation: docs/ecosystem-v0.1.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/1d4c0680b9711dafe038a94058380043faa5f507/docs/ecosystem-v0.1.md)
+- [Documentation: README.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/ab3fad8853d180da3b23b9f64773fbd0ffddfb88/README.md)
+- [Documentation: docs/ecosystem-v0.1.md](https://github.com/FulongLi/Spirit-Connect-AIPE-Labs/blob/ab3fad8853d180da3b23b9f64773fbd0ffddfb88/docs/ecosystem-v0.1.md)
 
 ## AIPE Registry
 
@@ -248,8 +248,8 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Core and Engineering State version identifiers are recognized; Registry does not transform engineering states.
 - Limitation: Staging snapshots may precede upstream merge; inspect sources/snapshots.lock.json before deployment.
 - Limitation: Snapshot-only checks cannot verify repository-relative documentation existence; use --checkouts for that audit.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `CONTRIBUTING.md`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Registry/blob/e28accfe8dae4e9a1304fc41585838fd025db42a/README.md)
+- [Documentation: CONTRIBUTING.md](https://github.com/FulongLi/AIPE-Registry/blob/e28accfe8dae4e9a1304fc41585838fd025db42a/CONTRIBUTING.md)
 
 ## AIPE Semiconductor Database
 
@@ -267,12 +267,12 @@ Licence: `NOASSERTION`. Validation: `tested`.
 - Limitation: Existing code and data rights remain NOASSERTION; see LICENSING.md.
 - Limitation: DAB losses derive from manufacturer PLECS tensors and datasheet points; ZVS turn-on loss is zero by assumption without Coss/Eoss evidence.
 - Limitation: Candidate device records are unreviewed datasheet transcriptions and are not canonical evidence.
-- [Documentation: README.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/README.md)
-- [Documentation: docs/dab-loss-screening.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/docs/dab-loss-screening.md)
-- [Documentation: docs/core-integration.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/docs/core-integration.md)
-- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/docs/architecture.md)
-- [Documentation: LICENSING.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/LICENSING.md)
-- [Documentation: data/candidates/README.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/067c57fdd6f3c8c01e860f3964190c409233b5c2/data/candidates/README.md)
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/README.md)
+- [Documentation: docs/dab-loss-screening.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/docs/dab-loss-screening.md)
+- [Documentation: docs/core-integration.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/docs/core-integration.md)
+- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/docs/architecture.md)
+- [Documentation: LICENSING.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/LICENSING.md)
+- [Documentation: data/candidates/README.md](https://github.com/FulongLi/AIPE-Semiconductor-Database/blob/242765f62293eb9a0ebd63588a7b8859a0a4594c/data/candidates/README.md)
 
 ## AIPE Simulation Skills
 
@@ -302,13 +302,13 @@ Licence: `NOASSERTION`. Validation: `tested`.
 - Limitation: Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.
 - Limitation: FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.
 - Limitation: No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence.
-- [Documentation: README.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/README.md)
-- [Documentation: docs/tool-policy.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/docs/tool-policy.md)
-- [Documentation: docs/core-mapping.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/docs/core-mapping.md)
-- [Documentation: skills.json](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/skills.json)
-- [Documentation: docs/validation.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/docs/validation.md)
-- [Documentation: docs/dab-models.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/docs/dab-models.md)
-- [Documentation: pyproject.toml](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/14e4e1735c5b2f90ee9e73a8056325f752793778/pyproject.toml)
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/README.md)
+- [Documentation: docs/tool-policy.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/docs/tool-policy.md)
+- [Documentation: docs/core-mapping.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/docs/core-mapping.md)
+- [Documentation: skills.json](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/skills.json)
+- [Documentation: docs/validation.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/docs/validation.md)
+- [Documentation: docs/dab-models.md](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/docs/dab-models.md)
+- [Documentation: pyproject.toml](https://github.com/FulongLi/AIPE-Simulation-Skills/blob/2d3ae2d2fd7a95e5cca5a2a322a8cff789194244/pyproject.toml)
 
 ## AIPE Sketcher
 
@@ -350,9 +350,9 @@ Licence: `MIT`. Validation: `tested`.
 - Limitation: Specialist results are analytical correlations, manufacturer data or executed numerical models with stated validity ranges; none is a measured value.
 - Limitation: A completed workflow run establishes software and simulation gates only; engineering review, experimental measurement and hardware qualification are separate statuses that this engine never asserts.
 - Limitation: Capability discovery reads manifests as data; it does not execute connectors or install software.
-- Documentation staged locally (publication pending): `README.md`
-- Documentation staged locally (publication pending): `docs/architecture.md`
-- Documentation staged locally (publication pending): `docs/execution-envelope.md`
-- Documentation staged locally (publication pending): `docs/capability-matrix.md`
-- Documentation staged locally (publication pending): `workflows/converter_dab/README.md`
-- Documentation staged locally (publication pending): `examples/dab-10kw/README.md`
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/README.md)
+- [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/docs/architecture.md)
+- [Documentation: docs/execution-envelope.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/docs/execution-envelope.md)
+- [Documentation: docs/capability-matrix.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/docs/capability-matrix.md)
+- [Documentation: workflows/converter_dab/README.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/workflows/converter_dab/README.md)
+- [Documentation: examples/dab-10kw/README.md](https://github.com/FulongLi/AIPE-Workflows/blob/675c727012e7f7c18aa53079982be557c1a54b23/examples/dab-10kw/README.md)

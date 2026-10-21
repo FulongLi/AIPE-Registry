@@ -1,35 +1,24 @@
 schema_version: 0.1.0
-# Branch refs are explicitly staging refs. refresh.py --remote resolves them to
-# immutable commits in snapshots.lock.json before reading any manifest.
+# Every merged capability is pinned to an immutable default-branch commit (state: pinned); refresh.py --remote
+# verifies that the commit resolves and captures the manifest from it. pending_pr entries point at an unmerged
+# pull-request head and are re-pinned when that PR is merged.
+# AIPE-Design-Agent was renamed AIPE-Electrical-Design and HeatSinkOptimisation became AIPE-Thermal-Design (2026-10-21);
+# the capability id aipe.design-agent is kept until the Electrical-Design refactor publishes aipe.electrical-design.
+# AIPE-Sketch was renamed AIPE-Sketcher (v0.2.0); the stable capability id aipe.sketch is unchanged.
 repositories:
-  - {id: aipe.core, repository: 'https://github.com/FulongLi/AIPE-Core', ref: codex/aipe-ecosystem-v0.1, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.registry, repository: 'https://github.com/FulongLi/AIPE-Registry', ref: codex/aipe-ecosystem-v0.1, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.magnetics-database, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Database', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.simulation-skills, repository: 'https://github.com/FulongLi/AIPE-Simulation-Skills', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  # AIPE-Sketch was renamed AIPE-Sketcher (v0.2.0); the stable capability id aipe.sketch is unchanged.
+  - {id: aipe.core, repository: 'https://github.com/FulongLi/AIPE-Core', ref: 4e664f03df1e294fefc169244bf1223c7352e2be, state: pinned, path: aipe.yaml}
+  - {id: aipe.registry, repository: 'https://github.com/FulongLi/AIPE-Registry', ref: e28accfe8dae4e9a1304fc41585838fd025db42a, state: pinned, path: aipe.yaml}
+  - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: 242765f62293eb9a0ebd63588a7b8859a0a4594c, state: pinned, path: aipe.yaml}
+  - {id: aipe.magnetics-database, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Database', ref: 46c6afc1fb24eba6659b4ad38bc302589a86026e, state: pinned, path: aipe.yaml}
+  - {id: aipe.simulation-skills, repository: 'https://github.com/FulongLi/AIPE-Simulation-Skills', ref: 2d3ae2d2fd7a95e5cca5a2a322a8cff789194244, state: pinned, path: aipe.yaml}
   - {id: aipe.sketch, repository: 'https://github.com/FulongLi/AIPE-Sketcher', ref: 3e005d08d4bca7afc86366412494a3755b0b637e, state: pinned, path: aipe.yaml}
-  - {id: aipe.design-agent, repository: 'https://github.com/FulongLi/AIPE-Design-Agent', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.academy, repository: 'https://github.com/FulongLi/AIPE-Academy', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.ieee-paper-agent, repository: 'https://github.com/FulongLi/AIPE-IEEE-Paper-Agent', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.presentation, repository: 'https://github.com/FulongLi/Spirit-Connect-AIPE-Labs', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.design-agent, repository: 'https://github.com/FulongLi/AIPE-Design-Agent', ref: 614ecd50b4b4763da325b63458a6524a01ad2821, state: pinned, path: aipe.yaml}
+  - {id: aipe.academy, repository: 'https://github.com/FulongLi/AIPE-Academy', ref: f4d8d4d4b35fc6de376c58afd127c43ba0fec20a, state: pinned, path: aipe.yaml}
+  - {id: aipe.ieee-paper-agent, repository: 'https://github.com/FulongLi/AIPE-IEEE-Paper-Agent', ref: 9bac59b633dde1856516779687260a0f562f8b9e, state: pinned, path: aipe.yaml}
+  - {id: aipe.presentation, repository: 'https://github.com/FulongLi/Spirit-Connect-AIPE-Labs', ref: ab3fad8853d180da3b23b9f64773fbd0ffddfb88, state: pinned, path: aipe.yaml}
   - {id: aipe.open-source-catalogue, repository: 'https://github.com/FulongLi/awesome-open-source-power-electronics', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.workflows, repository: 'https://github.com/FulongLi/AIPE-Workflows', ref: feat/dab-10kw-workflow, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.doc, repository: 'https://github.com/FulongLi/AIPE-Doc', ref: feat/dab-10kw-workflow, state: pending_pr, path: aipe.yaml}
-
-  - id: aipe.field-simulation
-    repository: https://github.com/FulongLi/AIPE-Field-Simulation
-    ref: feat/dab-10kw-workflow
-    state: pending_pr
-    path: aipe.yaml
-
-  - id: aipe.cad-agent
-    repository: https://github.com/FulongLi/AIPE-CAD-Agent
-    ref: feat/dab-10kw-workflow
-    state: pending_pr
-    path: aipe.yaml
-  - id: aipe.pcb-agent
-    repository: https://github.com/FulongLi/AIPE-PCB-Agent
-    ref: feat/dab-10kw-workflow
-    state: pending_pr
-    path: aipe.yaml
+  - {id: aipe.workflows, repository: 'https://github.com/FulongLi/AIPE-Workflows', ref: 675c727012e7f7c18aa53079982be557c1a54b23, state: pinned, path: aipe.yaml}
+  - {id: aipe.doc, repository: 'https://github.com/FulongLi/AIPE-Doc', ref: 51e1ea92783c3902e54fa9716278bf550f0ff29d, state: pinned, path: aipe.yaml}
+  - {id: aipe.field-simulation, repository: 'https://github.com/FulongLi/AIPE-Field-Simulation', ref: 9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8, state: pinned, path: aipe.yaml}
+  - {id: aipe.cad-agent, repository: 'https://github.com/FulongLi/AIPE-CAD-Agent', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.pcb-agent, repository: 'https://github.com/FulongLi/AIPE-PCB-Agent', ref: 2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12, state: pinned, path: aipe.yaml}
