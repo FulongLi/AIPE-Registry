@@ -572,6 +572,113 @@
     },
     {
       "capabilities": [
+        "dab-sps-analysis",
+        "dab-sps-design-sweep",
+        "dcdc-ccm-sizing",
+        "buck-loss-first-order"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [],
+      "description": "Analytical electrical design models with explicit SI units and sign conventions - lossless single-phase-shift dual-active-bridge analysis, CCM DC-DC sizing and first-order buck losses - packaged as aipe_electrical. Formerly the AIPE Design Agent (id aipe.design-agent); the legacy PEA application is archived at Git tag legacy-pea-v0.1.",
+      "documentation": [
+        "README.md",
+        "docs/models.md",
+        "docs/migration.md",
+        "CHANGELOG.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.electrical-design",
+      "inputs": [
+        {
+          "description": "Port voltages, turns ratio N_p/N_s, switching frequency, total primary-referred series inductance and either a signed phase shift (rad or deg) or a signed power; JSON keys carry SI unit suffixes.",
+          "name": "sps-operating-point"
+        },
+        {
+          "description": "Input and output voltage, output current, switching frequency and ripple fractions for CCM sizing of buck, boost, inverting buck-boost, SEPIC or Cuk stages.",
+          "name": "dcdc-specification"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Electrical Design",
+      "outputs": [
+        {
+          "description": "Power, maximum power, DC port currents, exact RMS and peak series currents, switching-instant currents, ZVS current-direction conditions with an evidence label and waveform breakpoints; quantities carry SI units.",
+          "name": "sps-analysis"
+        },
+        {
+          "description": "Total primary-referred series inductance for a power at a phase shift plus the resulting current stresses (replaces the legacy dab_design calculator).",
+          "name": "sps-design"
+        },
+        {
+          "description": "Duty cycle, inductances, capacitances and inductor current stresses of the small-ripple CCM model.",
+          "name": "dcdc-ccm-design"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Electrical-Design",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "dab-sps-analysis",
+            "dab-sps-design-sweep",
+            "dcdc-ccm-sizing",
+            "buck-loss-first-order"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Lossless idealised models; results are analytical references, not simulated or measured values."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_dab_sps.py",
+          "tests/test_dab_sps_sweep.py",
+          "tests/test_dcdc.py",
+          "tests/test_losses.py",
+          "tests/test_waveforms.py",
+          "tests/test_pareto.py",
+          "tests/test_json_io.py",
+          "tests/test_cli.py",
+          ".github/workflows/ci.yml"
+        ],
+        "limitations": [
+          "The SPS model assumes ideal switches, zero dead time, stiff DC ports, an ideal transformer with negligible magnetising current and no losses; |phi| <= pi/2.",
+          "ZVS results are necessary current-direction conditions of the lossless model, not charge-based ZVS verification.",
+          "CCM sizing uses the small-ripple approximation with ESR/ESL neglected; the buck loss estimate omits gate drive, Coss, reverse recovery, dead time and core loss.",
+          "The design-space sweep screens the electrical operating point only; losses, magnetics, thermal behaviour and cost are not modelled.",
+          "Mapping of results into Core engineering state is performed by the AIPE-Workflows adapter; this package emits unit-tagged quantities, not engineering-state documents.",
+          "Thermal models formerly under pea.thermal are provided by AIPE-Thermal-Design (aipe_thermal), not by this package."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
         "fem-thermal-conduction",
         "fem-magnetostatics-2d",
         "fem-eddy-current-2d",
@@ -2663,6 +2770,175 @@
         ],
         "limitations": [
           "Explicit Circuit IR and complete Core validation are required separately; no device sizing or physical results are inferred."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "thermal-network-steady-state",
+        "thermal-network-transient-foster-cauer",
+        "electrothermal-iteration",
+        "cooling-concept-comparison",
+        "heatsink-correlation-model",
+        "heatsink-pareto-optimisation",
+        "heatsink-stage-a-screening",
+        "thermal-design-constraints"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": true,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Analytical thermal design evaluation for power semiconductors and their cooling (SI units): plate-fin heat-sink correlation model (natural and forced convection, pressure drop and fan operating point, fin efficiency, spreading resistance, heat-load solve, seeded Pareto optimiser), steady-state shared-sink thermal networks with Foster/Cauer transient impedances, loss(Tj) <-> Tj electrothermal iteration, natural / forced-air / liquid cold-plate comparison with explicit review items, Stage A heat-sink geometry screening with junction-limit checks, and the AIPE 10 kW DAB case. No CFD, FEM or measured values.",
+      "documentation": [
+        "README.md",
+        "docs/models.md",
+        "docs/validation.md",
+        "CHANGELOG.md",
+        "LICENSES.md",
+        "docs/legacy/heat_sink_optimization_summary.html"
+      ],
+      "domains": [
+        "power-electronics",
+        "thermal-management"
+      ],
+      "extensions": {
+        "aipe.thermal-design": {
+          "cli": "aipe-thermal",
+          "heatsink_model_version": "1.0.0",
+          "licences": {
+            "heatsink_correlation_model": "CC-BY-4.0",
+            "migrated_pea_thermal_modules": "MIT",
+            "table": "LICENSES.md"
+          },
+          "package": "aipe-thermal 0.2.0",
+          "python": ">=3.10",
+          "python_package": "aipe_thermal",
+          "replaces": {
+            "HeatSinkOptimisation/heatsink_model.py": "aipe_thermal.heatsink",
+            "pea.thermal": "aipe_thermal"
+          },
+          "result_schemas": [
+            "aipe-thermal-cooling-comparison/0.1",
+            "aipe-thermal-stage-a/0.1",
+            "aipe-dab-thermal-case/0.1",
+            "heatsink-pareto-front/1.0"
+          ],
+          "standalone_operation": {
+            "requires_aipe_core": false,
+            "requires_commercial_software": false,
+            "requires_network": false,
+            "requires_registry_service": false
+          }
+        }
+      },
+      "id": "aipe.thermal-design",
+      "inputs": [
+        {
+          "description": "Devices sharing one heat sink: dissipated power (W) or a loss model (conduction/switching callables, R_DS(on)(Tj) and E_off(Tj) datasheet defaults), Rth(j-c), interface resistance, footprint area (m^2), junction design/absolute limits (degC or K); JSON or Python dataclasses.",
+          "name": "device-thermal-paths"
+        },
+        {
+          "description": "Natural-convection or forced-air plate-fin geometries (m, material, fan curve [(m^3/s, Pa)] or fixed flow) and liquid cold plates (channels, coolant, inlet temperature, flow in m^3/s).",
+          "name": "cooling-options"
+        },
+        {
+          "description": "Stage A task: design-variable bounds (length, width, fin height/thickness/gap, base thickness, optional flow), materials, objectives (r_th, mass, fan_power_W, volume_m3, delta_T_K), seed and optimiser settings, junction limit.",
+          "name": "heatsink-screening-task"
+        },
+        {
+          "description": "Optional AIPE-Core Engineering State whose semiconductor losses, ambient temperature and limits are mapped to the device paths by the caller (AIPE-Workflows thermal adapter).",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "license": "CC-BY-4.0 AND MIT",
+      "maturity": "prototype",
+      "name": "AIPE Thermal Design",
+      "outputs": [
+        {
+          "description": "aipe-thermal-cooling-comparison/0.1: ranked options with maximum junction temperature, sink and hottest-footprint resistances, mass, volume, auxiliary power, pressure drop, electrothermal convergence record, validity notes, warnings and qualitative review items.",
+          "name": "cooling-comparison"
+        },
+        {
+          "description": "aipe-thermal-stage-a/0.1: merged non-dominated candidate set per material with junction checks, distance to utopia and FEM-verification flags (knee, lightest feasible, lowest resistance).",
+          "name": "stage-a-screening"
+        },
+        {
+          "description": "HeatSinkPerformance / heatsink-pareto-front/1.0 JSON: resistances, temperatures, dimensionless numbers, pressure drop, fan power, solver record, correlation validity statements and attribution.",
+          "name": "heatsink-evaluation"
+        },
+        {
+          "description": "Steady-state junction, case and sink temperatures with margins to the design and absolute limits; transient junction temperature histories from Foster or Cauer ladders.",
+          "name": "thermal-network-result"
+        },
+        {
+          "description": "aipe-dab-thermal-case/0.1: the AIPE 10 kW DAB case (loss estimates with stated placeholders, TI reference cross-check, cooling comparison for both bridges, Stage A screening of the secondary bridge).",
+          "name": "dab-thermal-case"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Thermal-Design",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "thermal-network-steady-state",
+            "thermal-network-transient-foster-cauer",
+            "electrothermal-iteration",
+            "cooling-concept-comparison",
+            "heatsink-correlation-model",
+            "heatsink-pareto-optimisation",
+            "heatsink-stage-a-screening",
+            "thermal-design-constraints"
+          ],
+          "id": "python",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python >= 3.10, numpy >= 1.24, scipy >= 1.10 (differential evolution with constraints); matplotlib only for the optional --plot of the heat-sink front end.",
+            "Analytical correlations with the stated validity ranges (Bar-Cohen & Rohsenow natural convection, Teertstra-Yovanovich-Culham and Gnielinski channels, Kays & London / Muzychka-Yovanovich pressure drop, Lee-Song-Au-Moran spreading, Shah-London cold plate); every evaluation records its validity notes and warnings."
+          ],
+          "name": "Python with NumPy and SciPy",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_heatsink_model.py",
+          "tests/test_network.py",
+          "tests/test_electrothermal.py",
+          "tests/test_cooling.py",
+          "tests/test_screening.py",
+          "tests/test_cli.py",
+          "tests/test_units.py",
+          "tests/test_regression_recorded.py",
+          "tests/test_manifest.py",
+          "docs/validation.md"
+        ],
+        "limitations": [
+          "Tested means: analytic limit checks of every correlation, migrated unit tests of the networks, electrothermal loop, cooling comparison, screening and CLI, and regression comparisons against the numbers recorded by the AIPE DAB workflow run of 2026-10-21 (cooling 63.0 / 64.3 / 79.2 degC, Stage A knee 0.4405 K/W and 0.2783 kg, heat-sink model 1.426012 K/W and 1.609200 kg).",
+          "No CFD, FEM or measured validation of any heat sink, cold plate or device temperature; Stage B (FEM/CFD) is only flagged, not performed.",
+          "The DAB case uses stated placeholders (reference-design turn-off loss, same-family R_DS(on) temperature factor); device losses should come from the semiconductor database evaluator."
         ],
         "status": "tested"
       }

@@ -67,6 +67,19 @@
       "state": "pinned"
     },
     {
+      "commit": "5d846e3c92308a3ccb517baafc162adb633aec84",
+      "committed_at": "2026-10-21T10:04:43Z",
+      "id": "aipe.electrical-design",
+      "manifest_dirty": false,
+      "origin": "remote",
+      "path": "aipe.yaml",
+      "ref": "refs/pull/3/head",
+      "repository": "https://github.com/FulongLi/AIPE-Electrical-Design",
+      "sha256": "f867021d2d3b4c08715b535d686494893eae227e064f37ef87d3146f4cee4b2e",
+      "snapshot": "snapshots/aipe.electrical-design.yaml",
+      "state": "pending_pr"
+    },
+    {
       "commit": "9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8",
       "committed_at": "2026-10-21T08:12:27Z",
       "id": "aipe.field-simulation",
@@ -195,6 +208,19 @@
       "sha256": "358594ea88c23e66ab46a870858d4b3a6724bcf7ef0d8506aac2b6b1a38fff66",
       "snapshot": "snapshots/aipe.sketch.yaml",
       "state": "pinned"
+    },
+    {
+      "commit": "5d02306f9fad13c3abc619f32cdc4261ab192355",
+      "committed_at": "2026-10-21T10:11:14Z",
+      "id": "aipe.thermal-design",
+      "manifest_dirty": false,
+      "origin": "remote",
+      "path": "aipe.yaml",
+      "ref": "refs/pull/2/head",
+      "repository": "https://github.com/FulongLi/AIPE-Thermal-Design",
+      "sha256": "e7b17fa15ba0e8baa42bcf182e58111fd689fafb8bcb55a0d0203e24830664ec",
+      "snapshot": "snapshots/aipe.thermal-design.yaml",
+      "state": "pending_pr"
     },
     {
       "commit": "675c727012e7f7c18aa53079982be557c1a54b23",

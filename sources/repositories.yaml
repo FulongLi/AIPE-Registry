@@ -22,3 +22,5 @@ repositories:
   - {id: aipe.field-simulation, repository: 'https://github.com/FulongLi/AIPE-Field-Simulation', ref: 9e03d34fe7c9b1b3fb74ce0c17d2cb483d00bee8, state: pinned, path: aipe.yaml}
   - {id: aipe.cad-agent, repository: 'https://github.com/FulongLi/AIPE-CAD-Agent', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.pcb-agent, repository: 'https://github.com/FulongLi/AIPE-PCB-Agent', ref: 2de2ae5ad36dfae7d3307afc7bb6cd1b89c00c12, state: pinned, path: aipe.yaml}
+  - {id: aipe.electrical-design, repository: 'https://github.com/FulongLi/AIPE-Electrical-Design', ref: refs/pull/3/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.thermal-design, repository: 'https://github.com/FulongLi/AIPE-Thermal-Design', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}

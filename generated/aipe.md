@@ -9,6 +9,7 @@ Generated from validated capability manifests. Open-source first, commercial com
 | AIPE Core (`aipe.core`) | standard | prototype | native | [Repository](https://github.com/FulongLi/AIPE-Core) |
 | AIPE Design Agent (`aipe.design-agent`) | agent | prototype | mapped | [Repository](https://github.com/FulongLi/AIPE-Design-Agent) |
 | AIPE Doc (`aipe.doc`) | presentation | prototype | none | [Repository](https://github.com/FulongLi/AIPE-Doc) |
+| AIPE Electrical Design (`aipe.electrical-design`) | tool | prototype | mapped | [Repository](https://github.com/FulongLi/AIPE-Electrical-Design) |
 | AIPE Field Simulation (`aipe.field-simulation`) | tool | prototype | mapped | [Repository](https://github.com/FulongLi/AIPE-Field-Simulation) |
 | AIPE IEEE Paper Agent (`aipe.ieee-paper-agent`) | agent | usable | mapped | [Repository](https://github.com/FulongLi/AIPE-IEEE-Paper-Agent) |
 | AIPE Magnetics (`aipe.magnetics-database`) | tool | prototype | native | [Repository](https://github.com/FulongLi/AIPE-Magnetics-Database) |
@@ -19,6 +20,7 @@ Generated from validated capability manifests. Open-source first, commercial com
 | AIPE Semiconductor Database (`aipe.semiconductor-database`) | database | usable | mapped | [Repository](https://github.com/FulongLi/AIPE-Semiconductor-Database) |
 | AIPE Simulation Skills (`aipe.simulation-skills`) | skill_collection | usable | mapped | [Repository](https://github.com/FulongLi/AIPE-Simulation-Skills) |
 | AIPE Sketcher (`aipe.sketch`) | tool | usable | mapped | [Repository](https://github.com/FulongLi/AIPE-Sketcher) |
+| AIPE Thermal Design (`aipe.thermal-design`) | tool | prototype | mapped | [Repository](https://github.com/FulongLi/AIPE-Thermal-Design) |
 | AIPE Workflows (`aipe.workflows`) | agent | prototype | native | [Repository](https://github.com/FulongLi/AIPE-Workflows) |
 
 ## AIPE Academy
@@ -111,6 +113,26 @@ Licence: `NOASSERTION`. Validation: `schema_validated`.
 - [Documentation: README.md](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/README.md)
 - [Documentation: docs/guide.html](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/docs/guide.html)
 - [Documentation: templates/report-engineering.html](https://github.com/FulongLi/AIPE-Doc/blob/51e1ea92783c3902e54fa9716278bf550f0ff29d/templates/report-engineering.html)
+
+## AIPE Electrical Design
+
+Analytical electrical design models with explicit SI units and sign conventions - lossless single-phase-shift dual-active-bridge analysis, CCM DC-DC sizing and first-order buck losses - packaged as aipe_electrical. Formerly the AIPE Design Agent (id aipe.design-agent); the legacy PEA application is archived at Git tag legacy-pea-v0.1.
+
+Capabilities: dab-sps-analysis, dab-sps-design-sweep, dcdc-ccm-sizing, buck-loss-first-order.
+
+Licence: `MIT`. Validation: `tested`.
+
+- [Python](https://www.python.org/): open_source; required; interfaces: cli, python.
+- Limitation: The SPS model assumes ideal switches, zero dead time, stiff DC ports, an ideal transformer with negligible magnetising current and no losses; \|phi\| &lt;= pi/2.
+- Limitation: ZVS results are necessary current-direction conditions of the lossless model, not charge-based ZVS verification.
+- Limitation: CCM sizing uses the small-ripple approximation with ESR/ESL neglected; the buck loss estimate omits gate drive, Coss, reverse recovery, dead time and core loss.
+- Limitation: The design-space sweep screens the electrical operating point only; losses, magnetics, thermal behaviour and cost are not modelled.
+- Limitation: Mapping of results into Core engineering state is performed by the AIPE-Workflows adapter; this package emits unit-tagged quantities, not engineering-state documents.
+- Limitation: Thermal models formerly under pea.thermal are provided by AIPE-Thermal-Design (aipe_thermal), not by this package.
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Electrical-Design/blob/5d846e3c92308a3ccb517baafc162adb633aec84/README.md)
+- [Documentation: docs/models.md](https://github.com/FulongLi/AIPE-Electrical-Design/blob/5d846e3c92308a3ccb517baafc162adb633aec84/docs/models.md)
+- [Documentation: docs/migration.md](https://github.com/FulongLi/AIPE-Electrical-Design/blob/5d846e3c92308a3ccb517baafc162adb633aec84/docs/migration.md)
+- [Documentation: CHANGELOG.md](https://github.com/FulongLi/AIPE-Electrical-Design/blob/5d846e3c92308a3ccb517baafc162adb633aec84/CHANGELOG.md)
 
 ## AIPE Field Simulation
 
@@ -331,6 +353,25 @@ Licence: `LicenseRef-AIPE-Sketcher-Personal-NonCommercial-0.1 AND CC0-1.0`. Vali
 - [Documentation: docs/architecture.md](https://github.com/FulongLi/AIPE-Sketcher/blob/3e005d08d4bca7afc86366412494a3755b0b637e/docs/architecture.md)
 - [Documentation: LICENSE](https://github.com/FulongLi/AIPE-Sketcher/blob/3e005d08d4bca7afc86366412494a3755b0b637e/LICENSE)
 - [Documentation: THIRD_PARTY_NOTICES.md](https://github.com/FulongLi/AIPE-Sketcher/blob/3e005d08d4bca7afc86366412494a3755b0b637e/THIRD_PARTY_NOTICES.md)
+
+## AIPE Thermal Design
+
+Analytical thermal design evaluation for power semiconductors and their cooling (SI units): plate-fin heat-sink correlation model (natural and forced convection, pressure drop and fan operating point, fin efficiency, spreading resistance, heat-load solve, seeded Pareto optimiser), steady-state shared-sink thermal networks with Foster/Cauer transient impedances, loss(Tj) &lt;-> Tj electrothermal iteration, natural / forced-air / liquid cold-plate comparison with explicit review items, Stage A heat-sink geometry screening with junction-limit checks, and the AIPE 10 kW DAB case. No CFD, FEM or measured values.
+
+Capabilities: thermal-network-steady-state, thermal-network-transient-foster-cauer, electrothermal-iteration, cooling-concept-comparison, heatsink-correlation-model, heatsink-pareto-optimisation, heatsink-stage-a-screening, thermal-design-constraints.
+
+Licence: `CC-BY-4.0 AND MIT`. Validation: `tested`.
+
+- [Python with NumPy and SciPy](https://www.python.org/): open_source; required; interfaces: python, cli.
+- Limitation: Tested means: analytic limit checks of every correlation, migrated unit tests of the networks, electrothermal loop, cooling comparison, screening and CLI, and regression comparisons against the numbers recorded by the AIPE DAB workflow run of 2026-10-21 (cooling 63.0 / 64.3 / 79.2 degC, Stage A knee 0.4405 K/W and 0.2783 kg, heat-sink model 1.426012 K/W and 1.609200 kg).
+- Limitation: No CFD, FEM or measured validation of any heat sink, cold plate or device temperature; Stage B (FEM/CFD) is only flagged, not performed.
+- Limitation: The DAB case uses stated placeholders (reference-design turn-off loss, same-family R_DS(on) temperature factor); device losses should come from the semiconductor database evaluator.
+- [Documentation: README.md](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/README.md)
+- [Documentation: docs/models.md](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/docs/models.md)
+- [Documentation: docs/validation.md](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/docs/validation.md)
+- [Documentation: CHANGELOG.md](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/CHANGELOG.md)
+- [Documentation: LICENSES.md](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/LICENSES.md)
+- [Documentation: docs/legacy/heat_sink_optimization_summary.html](https://github.com/FulongLi/AIPE-Thermal-Design/blob/5d02306f9fad13c3abc619f32cdc4261ab192355/docs/legacy/heat_sink_optimization_summary.html)
 
 ## AIPE Workflows
 

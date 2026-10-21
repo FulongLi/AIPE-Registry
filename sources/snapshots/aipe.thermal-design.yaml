@@ -1,0 +1,91 @@
+schema_version: 0.1.0
+id: aipe.thermal-design
+name: AIPE Thermal Design
+type: tool
+domains: [power-electronics, thermal-management]
+description: "Analytical thermal design evaluation for power semiconductors and their cooling (SI units): plate-fin heat-sink correlation model (natural and forced convection, pressure drop and fan operating point, fin efficiency, spreading resistance, heat-load solve, seeded Pareto optimiser), steady-state shared-sink thermal networks with Foster/Cauer transient impedances, loss(Tj) <-> Tj electrothermal iteration, natural / forced-air / liquid cold-plate comparison with explicit review items, Stage A heat-sink geometry screening with junction-limit checks, and the AIPE 10 kW DAB case. No CFD, FEM or measured values."
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Thermal-Design
+license: CC-BY-4.0 AND MIT
+capabilities:
+  - thermal-network-steady-state
+  - thermal-network-transient-foster-cauer
+  - electrothermal-iteration
+  - cooling-concept-comparison
+  - heatsink-correlation-model
+  - heatsink-pareto-optimisation
+  - heatsink-stage-a-screening
+  - thermal-design-constraints
+inputs:
+  - name: device-thermal-paths
+    description: "Devices sharing one heat sink: dissipated power (W) or a loss model (conduction/switching callables, R_DS(on)(Tj) and E_off(Tj) datasheet defaults), Rth(j-c), interface resistance, footprint area (m^2), junction design/absolute limits (degC or K); JSON or Python dataclasses."
+  - name: cooling-options
+    description: "Natural-convection or forced-air plate-fin geometries (m, material, fan curve [(m^3/s, Pa)] or fixed flow) and liquid cold plates (channels, coolant, inlet temperature, flow in m^3/s)."
+  - name: heatsink-screening-task
+    description: "Stage A task: design-variable bounds (length, width, fin height/thickness/gap, base thickness, optional flow), materials, objectives (r_th, mass, fan_power_W, volume_m3, delta_T_K), seed and optimiser settings, junction limit."
+  - name: engineering-state
+    description: "Optional AIPE-Core Engineering State whose semiconductor losses, ambient temperature and limits are mapped to the device paths by the caller (AIPE-Workflows thermal adapter)."
+    schema: https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json
+outputs:
+  - name: cooling-comparison
+    description: "aipe-thermal-cooling-comparison/0.1: ranked options with maximum junction temperature, sink and hottest-footprint resistances, mass, volume, auxiliary power, pressure drop, electrothermal convergence record, validity notes, warnings and qualitative review items."
+  - name: stage-a-screening
+    description: "aipe-thermal-stage-a/0.1: merged non-dominated candidate set per material with junction checks, distance to utopia and FEM-verification flags (knee, lightest feasible, lowest resistance)."
+  - name: heatsink-evaluation
+    description: "HeatSinkPerformance / heatsink-pareto-front/1.0 JSON: resistances, temperatures, dimensionless numbers, pressure drop, fan power, solver record, correlation validity statements and attribution."
+  - name: thermal-network-result
+    description: "Steady-state junction, case and sink temperatures with margins to the design and absolute limits; transient junction temperature histories from Foster or Cauer ladders."
+  - name: dab-thermal-case
+    description: "aipe-dab-thermal-case/0.1: the AIPE 10 kW DAB case (loss estimates with stated placeholders, TI reference cross-check, cooling comparison for both bridges, Stage A screening of the secondary bridge)."
+dependencies:
+  - {id: aipe.core, version: 0.1.x, optional: true}
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: mapped}
+tools:
+  - id: python
+    name: Python with NumPy and SciPy
+    capabilities: [thermal-network-steady-state, thermal-network-transient-foster-cauer, electrothermal-iteration, cooling-concept-comparison, heatsink-correlation-model, heatsink-pareto-optimisation, heatsink-stage-a-screening, thermal-design-constraints]
+    licence_class: open_source
+    optional: false
+    interfaces: [python, cli]
+    platforms: [windows, linux, macos]
+    url: https://www.python.org/
+    limitations:
+      - "Python >= 3.10, numpy >= 1.24, scipy >= 1.10 (differential evolution with constraints); matplotlib only for the optional --plot of the heat-sink front end."
+      - "Analytical correlations with the stated validity ranges (Bar-Cohen & Rohsenow natural convection, Teertstra-Yovanovich-Culham and Gnielinski channels, Kays & London / Muzychka-Yovanovich pressure drop, Lee-Song-Au-Moran spreading, Shah-London cold plate); every evaluation records its validity notes and warnings."
+connectors: []
+validation:
+  status: tested
+  evidence:
+    - tests/test_heatsink_model.py
+    - tests/test_network.py
+    - tests/test_electrothermal.py
+    - tests/test_cooling.py
+    - tests/test_screening.py
+    - tests/test_cli.py
+    - tests/test_units.py
+    - tests/test_regression_recorded.py
+    - tests/test_manifest.py
+    - docs/validation.md
+  limitations:
+    - "Tested means: analytic limit checks of every correlation, migrated unit tests of the networks, electrothermal loop, cooling comparison, screening and CLI, and regression comparisons against the numbers recorded by the AIPE DAB workflow run of 2026-10-21 (cooling 63.0 / 64.3 / 79.2 degC, Stage A knee 0.4405 K/W and 0.2783 kg, heat-sink model 1.426012 K/W and 1.609200 kg)."
+    - "No CFD, FEM or measured validation of any heat sink, cold plate or device temperature; Stage B (FEM/CFD) is only flagged, not performed."
+    - "The DAB case uses stated placeholders (reference-design turn-off loss, same-family R_DS(on) temperature factor); device losses should come from the semiconductor database evaluator."
+documentation:
+  - README.md
+  - docs/models.md
+  - docs/validation.md
+  - CHANGELOG.md
+  - LICENSES.md
+  - docs/legacy/heat_sink_optimization_summary.html
+extensions:
+  aipe.thermal-design:
+    package: aipe-thermal 0.2.0
+    python_package: aipe_thermal
+    cli: aipe-thermal
+    python: '>=3.10'
+    result_schemas: [aipe-thermal-cooling-comparison/0.1, aipe-thermal-stage-a/0.1, aipe-dab-thermal-case/0.1, heatsink-pareto-front/1.0]
+    heatsink_model_version: 1.0.0
+    licences: {heatsink_correlation_model: CC-BY-4.0, migrated_pea_thermal_modules: MIT, table: LICENSES.md}
+    replaces: {pea.thermal: aipe_thermal, HeatSinkOptimisation/heatsink_model.py: aipe_thermal.heatsink}
+    standalone_operation: {requires_aipe_core: false, requires_registry_service: false, requires_commercial_software: false, requires_network: false}
