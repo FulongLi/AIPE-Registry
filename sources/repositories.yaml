@@ -7,9 +7,24 @@ repositories:
   - {id: aipe.semiconductor-database, repository: 'https://github.com/FulongLi/AIPE-Semiconductor-Database', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.magnetics-database, repository: 'https://github.com/FulongLi/AIPE-Magnetics-Database', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.simulation-skills, repository: 'https://github.com/FulongLi/AIPE-Simulation-Skills', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
-  - {id: aipe.sketch, repository: 'https://github.com/FulongLi/AIPE-Sketch', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  # AIPE-Sketch was renamed AIPE-Sketcher (v0.2.0); the stable capability id aipe.sketch is unchanged.
+  - {id: aipe.sketch, repository: 'https://github.com/FulongLi/AIPE-Sketcher', ref: 3e005d08d4bca7afc86366412494a3755b0b637e, state: pinned, path: aipe.yaml}
   - {id: aipe.design-agent, repository: 'https://github.com/FulongLi/AIPE-Design-Agent', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.academy, repository: 'https://github.com/FulongLi/AIPE-Academy', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.ieee-paper-agent, repository: 'https://github.com/FulongLi/AIPE-IEEE-Paper-Agent', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.presentation, repository: 'https://github.com/FulongLi/Spirit-Connect-AIPE-Labs', ref: refs/pull/2/head, state: pending_pr, path: aipe.yaml}
   - {id: aipe.open-source-catalogue, repository: 'https://github.com/FulongLi/awesome-open-source-power-electronics', ref: refs/pull/1/head, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.workflows, repository: 'https://github.com/FulongLi/AIPE-Workflows', ref: feat/dab-10kw-workflow, state: pending_pr, path: aipe.yaml}
+  - {id: aipe.doc, repository: 'https://github.com/FulongLi/AIPE-Doc', ref: feat/dab-10kw-workflow, state: pending_pr, path: aipe.yaml}
+
+  - id: aipe.field-simulation
+    repository: https://github.com/FulongLi/AIPE-Field-Simulation
+    ref: feat/dab-10kw-workflow
+    state: pending_pr
+    path: aipe.yaml
+
+  - id: aipe.cad-agent
+    repository: https://github.com/FulongLi/AIPE-CAD-Agent
+    ref: feat/dab-10kw-workflow
+    state: pending_pr
+    path: aipe.yaml

@@ -3,7 +3,11 @@
     {
       "capabilities": [
         "guided-engineering-education",
-        "open-source-converter-labs"
+        "open-source-converter-labs",
+        "reproducible-engineering-labs",
+        "academic-reference-baseline",
+        "codex-skill",
+        "claude-code-plugin"
       ],
       "compatibility": {
         "core": "0.1.x",
@@ -18,19 +22,25 @@
           "version": "0.1.x"
         }
       ],
-      "description": "Original Power Engineering learning paths, with power electronics as the v0.1 curriculum.",
+      "description": "Original, AI-native Power and Energy Engineering curriculum in four domains (Foundations, Power Electronics, Power Systems, Renewable Energy) with reproducible Python labs, a verified MIT OpenCourseWare academic baseline, and a shared Codex skill / Claude Code plugin.",
       "documentation": [
         "README.md",
+        "docs/architecture.md",
+        "docs/curriculum-guide.md",
+        "docs/plugin-installation.md",
+        "docs/website-integration.md",
         "docs/ecosystem-v0.1.md"
       ],
       "domains": [
         "power-engineering",
-        "power-electronics"
+        "power-electronics",
+        "power-systems",
+        "renewable-energy"
       ],
       "id": "aipe.academy",
       "inputs": [
         {
-          "description": "Local learner progress and demonstrated prerequisites.",
+          "description": "Local learner progress and demonstrated prerequisites (learning/progress.json, never committed).",
           "name": "learner-evidence"
         }
       ],
@@ -39,8 +49,16 @@
       "name": "AIPE Academy",
       "outputs": [
         {
-          "description": "Deterministic metadata, stable URLs and content hashes in generated/lessons.json.",
+          "description": "Deterministic metadata, stable URLs, content hashes and translations in generated/lessons.json.",
           "name": "lesson-catalogue"
+        },
+        {
+          "description": "Domain -> Track -> Module taxonomy with lesson attachments, coverage status and learning paths in generated/knowledge-graph.json.",
+          "name": "knowledge-graph"
+        },
+        {
+          "description": "Verified MIT OpenCourseWare reference baseline with module mapping in generated/academic-references.json.",
+          "name": "academic-references"
         }
       ],
       "repository": "https://github.com/FulongLi/AIPE-Academy",
@@ -58,7 +76,7 @@
           ],
           "licence_class": "open_source",
           "limitations": [
-            "Physical models require separate validation."
+            "Labs are analytical or numerical teaching models; physical performance requires separate validation."
           ],
           "name": "Python",
           "optional": false,
@@ -68,16 +86,213 @@
             "macos"
           ],
           "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "plotting"
+          ],
+          "id": "matplotlib",
+          "interfaces": [
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Only used behind the optional --plot flag of the labs."
+          ],
+          "name": "Matplotlib",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://matplotlib.org/"
         }
       ],
       "type": "education",
       "validation": {
         "evidence": [
-          "tests/test_curriculum.py"
+          "tests/test_curriculum.py",
+          "tests/test_taxonomy.py",
+          "tests/test_references.py",
+          "tests/test_lab_dc_circuits.py",
+          "tests/test_lab_buck_switching.py",
+          "tests/test_lab_three_phase.py",
+          "tests/test_lab_pv_model.py",
+          "tests/test_academy_cli.py",
+          "tests/test_plugin_packaging.py"
         ],
         "limitations": [
-          "Most curriculum stages remain outlines, not completed courses.",
-          "The buck lab is ideal analytical teaching, not hardware validation."
+          "Most modules remain outlines or planned; one complete reference lesson exists per domain.",
+          "Labs are ideal analytical or numerical teaching models, not hardware validation.",
+          "The MIT OpenCourseWare baseline is a scope reference; AIPE Academy is not affiliated with or endorsed by MIT."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "parametric-transformer-cad",
+        "heat-sink-cad",
+        "cold-plate-cad",
+        "converter-assembly-cad",
+        "cad-interference-clearance-check"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "none"
+      },
+      "connectors": [],
+      "dependencies": [],
+      "description": "Parametric FreeCAD geometry for power-converter transformers, plate-fin heat sinks, liquid cold plates and full converter assemblies, with STEP/FCStd export, mesh metadata and interference/clearance checks driven by JSON parameters in SI units.",
+      "documentation": [
+        "README.md",
+        "docs/parameters.md",
+        "examples/dab-10kw/README.md"
+      ],
+      "domains": [
+        "power-electronics",
+        "mechanical-packaging",
+        "thermal-management"
+      ],
+      "id": "aipe.cad-agent",
+      "inputs": [
+        {
+          "description": "E-core transformer parameters (core letters, bobbin, windings with wire data, insulation, terminals, mounting, check requirements) in SI metres.",
+          "name": "transformer-parameters",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/transformer.schema.json"
+        },
+        {
+          "description": "Plate-fin heat sink parameters including device footprints and isolation hardware.",
+          "name": "heatsink-parameters",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/heatsink.schema.json"
+        },
+        {
+          "description": "Liquid cold plate parameters with serpentine channel, cover, ports and device footprints.",
+          "name": "coldplate-parameters",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/coldplate.schema.json"
+        },
+        {
+          "description": "Converter assembly layout (chassis, cooling instances, transformer, boards with copper zones and keep-outs, connectors) referencing the component files.",
+          "name": "assembly-parameters",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/assembly.schema.json"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE CAD Agent",
+      "outputs": [
+        {
+          "description": "Editable FreeCAD FCStd document and STEP file per component and for the assembly; STEP product names equal the metadata body names.",
+          "name": "cad-geometry"
+        },
+        {
+          "description": "JSON with bounding boxes, volumes, surface areas, masses per material, contacts and Gmsh mesh hints (regions, material tags, element sizes) in SI units.",
+          "name": "cad-metadata"
+        },
+        {
+          "description": "JSON report of pairwise interference volumes, keep-out and envelope intrusions, fit distances and net-to-net clearance measurements against caller-supplied requirements.",
+          "name": "cad-check-report"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-CAD-Agent",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "parameter-validation",
+            "derived-geometry-rules",
+            "orchestration"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python 3.10+ for the orchestration layer; the parameter package is standard-library only so that the Python embedded in FreeCAD can import it."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "parametric-transformer-cad",
+            "heat-sink-cad",
+            "cold-plate-cad",
+            "converter-assembly-cad",
+            "cad-interference-clearance-check"
+          ],
+          "id": "freecad",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Executed headless through freecadcmd (tested with FreeCAD 1.1.4 on Windows); geometry is built in millimetres and converted at the boundary.",
+            "No GUI colours or appearance data are written to the FCStd/STEP files in console mode.",
+            "Renders are matplotlib projections of tessellated shapes, not Coin3D offscreen renders."
+          ],
+          "name": "FreeCAD",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.freecad.org/"
+        },
+        {
+          "capabilities": [
+            "heat-sink-cad"
+          ],
+          "id": "cadquery",
+          "interfaces": [
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Experimental in-process alternative for the heat-sink body only (STEP export); no checks, devices or FCStd output."
+          ],
+          "name": "CadQuery",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://cadquery.readthedocs.io/"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_units_materials_geometry.py",
+          "tests/test_transformer_params.py",
+          "tests/test_heatsink_coldplate_params.py",
+          "tests/test_assembly_params_and_schema.py",
+          "tests/test_cli_and_manifest.py",
+          "tests/test_freecad_workers.py",
+          "tests/test_cadquery_backend.py",
+          "examples/dab-10kw/summary.json"
+        ],
+        "limitations": [
+          "Illustrative parametric models for layout, mass and clearance studies; not manufacturable designs and no DFM claims.",
+          "Windings are homogenised annular bodies with layer thickness derived from wire data; individual turns, lead-outs and bends are not modelled.",
+          "Clearance is measured as straight-line or one-bend air paths with Part.Shape.distToShape; creepage along insulating surfaces is not traced and conductors fully enclosed in insulation are reported for review.",
+          "Required clearance and creepage values are caller inputs; no compliance with any standard is asserted.",
+          "TDK E65/32/27 and Wolfspeed TO-247-4L dimensions are nominal values transcribed from the cited data sheets and must be verified against the current revisions.",
+          "No Engineering State adapter yet; integration with AIPE Core is planned, not implemented."
         ],
         "status": "tested"
       }
@@ -166,7 +381,9 @@
       "capabilities": [
         "engineering-orchestration",
         "operating-point-analysis",
-        "converter-concept-calculation"
+        "converter-concept-calculation",
+        "dab-sps-analysis",
+        "thermal-cooling-screening"
       ],
       "compatibility": {
         "core": "0.1.x",
@@ -190,7 +407,8 @@
       "documentation": [
         "README.md",
         "docs/ecosystem-orchestration.md",
-        "pea/review/README.md"
+        "pea/review/README.md",
+        "CONTRIBUTING.md"
       ],
       "domains": [
         "power-engineering",
@@ -230,7 +448,9 @@
           "capabilities": [
             "engineering-orchestration",
             "operating-point-analysis",
-            "converter-concept-calculation"
+            "converter-concept-calculation",
+            "dab-sps-analysis",
+            "thermal-cooling-screening"
           ],
           "id": "python",
           "interfaces": [
@@ -256,12 +476,304 @@
         "evidence": [
           "tests/test_orchestration.py",
           "tests/test_calculator.py",
-          "tests/test_optimizer.py"
+          "tests/test_optimizer.py",
+          "tests/test_dab_sps.py",
+          "tests/test_thermal_cooling.py",
+          "tests/test_thermal_heatsink_optimisation.py",
+          "tests/test_thermal_network.py",
+          "tests/test_thermal_electrothermal.py",
+          "tests/test_thermal_cli.py"
         ],
         "limitations": [
           "Technical suitability and fidelity require an explicit assessment; metadata alone is not an engineering guarantee.",
           "Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.",
-          "Existing PEA calculator/UI APIs remain separate from the additive Core state path."
+          "Existing PEA calculator/UI APIs remain separate from the additive Core state path.",
+          "pea.thermal results are analytical correlations (natural/forced convection, cold plate, spreading, Stage A Pareto screening) with stated validity ranges; they are not CFD, FEM or measured values and need the sibling HeatSinkOptimisation checkout."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "engineering-document-templates",
+        "html-report-presentation"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "none"
+      },
+      "connectors": [],
+      "dependencies": [],
+      "description": "AIPE-branded HTML document and slide templates (A4 and 16:9 print layouts) with shared stylesheets, a link/asset validator and a preview server; the engineering review package of AIPE-Workflows is rendered in the document layout.",
+      "documentation": [
+        "README.md",
+        "docs/guide.html",
+        "templates/report-engineering.html"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.doc",
+      "inputs": [
+        {
+          "description": "Structured engineering content (text, tables, figures, evidence references) authored in HTML or rendered by a generator such as aipe_workflows.reporting.",
+          "name": "report-data"
+        }
+      ],
+      "license": "NOASSERTION",
+      "maturity": "prototype",
+      "name": "AIPE Doc",
+      "outputs": [
+        {
+          "description": "Self-contained HTML document or slide deck using the shared assets, printable to PDF from a browser with the documented print settings.",
+          "name": "html-document"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Doc",
+      "schema_version": "0.1.0",
+      "status": "active",
+      "tools": [
+        {
+          "capabilities": [
+            "html-report-presentation"
+          ],
+          "id": "node",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Only needed for scripts/check.mjs (link and asset validation) and scripts/serve.mjs (preview); templates open directly in a browser."
+          ],
+          "name": "Node.js",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://nodejs.org/"
+        }
+      ],
+      "type": "presentation",
+      "validation": {
+        "evidence": [
+          "scripts/check.mjs"
+        ],
+        "limitations": [
+          "check.mjs validates local links, ids and language pairs of the shipped templates; it does not validate engineering content.",
+          "PDF export relies on the browser print engine; no automated PDF generation is included.",
+          "Repository content has no declared licence (NOASSERTION); brand assets are AIPE Labs material."
+        ],
+        "status": "schema_validated"
+      }
+    },
+    {
+      "capabilities": [
+        "fem-thermal-conduction",
+        "fem-magnetostatics-2d",
+        "fem-eddy-current-2d",
+        "analytic-benchmark-verification",
+        "simulation-case-provenance"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "mapped"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": true,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "Reproducible open-source field-simulation workflows (Gmsh meshing, ElmerGrid conversion, ElmerSolver FEM) for power-electronics thermal conduction, 2-D magnetostatics and 2-D eddy currents, with analytically verified benchmarks, mesh-convergence studies, DAB transformer-window and heat-sink parametric models, and AIPE evidence records (SI units, tool versions, SHA-256 artifacts).",
+      "documentation": [
+        "README.md",
+        "results/benchmarks.md",
+        "docs/jobs/openfoam-heatsink-cfd-job.md",
+        "LICENSE"
+      ],
+      "domains": [
+        "power-electronics",
+        "thermal-management",
+        "magnetics"
+      ],
+      "extensions": {
+        "aipe.field-simulation": {
+          "case_record_schema": "aipe.field-simulation/case-record/0.1",
+          "cli": "aipe-fieldsim",
+          "package": "aipe-fieldsim 0.1.0",
+          "python": ">=3.10",
+          "python_package": "aipe_fieldsim",
+          "standalone_operation": {
+            "requires_aipe_core": false,
+            "requires_commercial_software": false,
+            "requires_network": false,
+            "requires_registry_service": false
+          },
+          "summary_schemas": [
+            "aipe.field-simulation/benchmark-summary/0.1",
+            "aipe.field-simulation/model-summary/0.1"
+          ],
+          "tool_discovery": {
+            "env": [
+              "AIPE_ELMERSOLVER",
+              "AIPE_ELMERGRID",
+              "ELMER_HOME",
+              "AIPE_WORKSPACE_ROOT"
+            ],
+            "fallbacks": [
+              "PATH",
+              "tools/ElmerFEM*/bin"
+            ]
+          }
+        }
+      },
+      "id": "aipe.field-simulation",
+      "inputs": [
+        {
+          "description": "SI parameter dictionaries (geometry, materials, currents, film coefficients) passed to the benchmark and model classes or the CLI.",
+          "name": "model-parameters"
+        },
+        {
+          "description": "Optional AIPE-Core Engineering State whose operating point supplies currents, frequency and ambient temperature (mapping done by the caller).",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Field Simulation",
+      "outputs": [
+        {
+          "description": "Mesh source, Elmer mesh database, rendered SIF, solver logs, SaveScalars/SaveLine data, VTU fields, results.json and case.json with tool versions, commands and SHA-256 hashes.",
+          "name": "case-directory"
+        },
+        {
+          "description": "summary.json per benchmark or model: parameters, analytic references, FEM values, relative errors, convergence tables, consistency checks, timing, evidence fragments.",
+          "name": "benchmark-summary"
+        },
+        {
+          "description": "AIPE-Core style analytical/simulation/assumption evidence records with RFC 3339 timestamps, versioned tool attribution and hashed artifacts.",
+          "name": "evidence-fragments"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Field-Simulation",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "mesh-generation",
+            "parametric-cad-occ"
+          ],
+          "id": "gmsh",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "GPL-2.0-or-later; used through the python SDK (pip install gmsh). Required for every Gmsh-based benchmark and model; the ElmerGrid .grd route works without it."
+          ],
+          "name": "Gmsh",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://gmsh.info/"
+        },
+        {
+          "capabilities": [
+            "fem-thermal-conduction",
+            "fem-magnetostatics-2d",
+            "fem-eddy-current-2d"
+          ],
+          "id": "elmer",
+          "interfaces": [
+            "cli",
+            "sif"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "ElmerSolver GPL-2.0-or-later, elmersolver library LGPL-2.1; portable Windows build 9.0 (Release 2026-01-20) qualified. Set AIPE_ELMERSOLVER or ELMER_HOME when the binaries are not on PATH. Serial (no MPI) execution only in this package."
+          ],
+          "name": "Elmer FEM (ElmerSolver, ElmerGrid)",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.elmerfem.org/"
+        },
+        {
+          "capabilities": [
+            "conjugate-heat-transfer-cfd"
+          ],
+          "id": "openfoam",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Not integrated and not executed: no native Windows build (WSL2 or Docker required). Only a reproducible job specification is provided (docs/jobs/openfoam-heatsink-cfd-job.md); film coefficients in the heat-sink model are supplied inputs, not CFD results."
+          ],
+          "name": "OpenFOAM",
+          "optional": true,
+          "platforms": [
+            "linux"
+          ],
+          "url": "https://www.openfoam.com/"
+        },
+        {
+          "capabilities": [
+            "analytic-benchmark-verification",
+            "simulation-case-provenance"
+          ],
+          "id": "python",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python 3.10+, numpy required; matplotlib optional for PNG plots; pytest, pyyaml and jsonschema for the test suite."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        }
+      ],
+      "type": "tool",
+      "validation": {
+        "evidence": [
+          "tests/test_solver.py",
+          "tests/test_sif.py",
+          "tests/test_vtu.py",
+          "tests/test_savedata.py",
+          "tests/test_analytic.py",
+          "tests/test_tools_and_mesh.py",
+          "tests/test_manifest.py",
+          "results/benchmarks.md"
+        ],
+        "limitations": [
+          "Tested means: unit tests of parsers/templating/analytic formulas plus end-to-end solver tests executed on Windows 11 with Gmsh 4.15.2 and Elmer 9.0; the solver tests skip when the tools are absent.",
+          "Benchmarks are verified against closed-form solutions only; no measured validation of any transformer or heat-sink result.",
+          "The transformer AC winding-loss factor uses a homogenised solid-block conductivity and is an approximation indicator, not a Litz/foil loss prediction; 3-D transformer models are not provided.",
+          "CFD (OpenFOAM) is blocked on this platform; heat-sink film coefficients are supplied values."
         ],
         "status": "tested"
       }
@@ -356,45 +868,294 @@
       "capabilities": [
         "magnetics-record-schema",
         "magnetics-data-import",
-        "magnetics-data-validation"
+        "magnetics-data-validation",
+        "magnetics-data-migration",
+        "magnetics-waveform-storage",
+        "magnetics-source-adapters",
+        "magnetics-material-lookup",
+        "magnetics-material-comparison",
+        "magnetics-core-loss-estimation",
+        "magnetics-hysteresis-evaluation",
+        "magnetics-inductor-design",
+        "magnetics-transformer-design",
+        "magnetics-waveform-informed-transformer-design",
+        "magnetics-measurement-requests",
+        "magnetics-design-validation",
+        "magnetics-engineering-report",
+        "magnetics-verification-suite",
+        "magnetics-mcp-server",
+        "magnetics-agent-plugin",
+        "magnetics-core-state-export"
       ],
       "compatibility": {
         "core": "0.1.x",
         "engineering_state": "0.1.x",
-        "integration": "mapped"
+        "integration": "native"
       },
-      "connectors": [],
+      "connectors": [
+        {
+          "id": "aipe-magnetics-mcp",
+          "license": "NOASSERTION",
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "repository": "https://github.com/FulongLi/AIPE-Magnetics-Database",
+          "security_notes": [
+            "Local stdio transport; no network listener, no API keys, no cloud services.",
+            "Read-only queries and deterministic calculations by default; file-writing tools require --allow-write and an explicit output path inside the allowed directory.",
+            "The server never executes repository content or shell commands."
+          ],
+          "status": "experimental",
+          "supported_versions": [
+            "mcp>=2,<3 (protocol 2026-07-28)"
+          ],
+          "tool": "mcp-python-sdk",
+          "type": "mcp"
+        }
+      ],
       "dependencies": [
         {
           "id": "aipe.core",
-          "optional": false,
+          "optional": true,
           "version": "0.1.x"
         }
       ],
-      "description": "Evidence-first magnetic material, geometry, winding, component, loss-model and measurement record scaffold with explicit SI units.",
+      "description": "Evidence-first magnetic engineering expert: unified magnetic data standard v0.2, loss and hysteresis models with per-capability verification evidence, inductor/transformer design calculations, local MCP server and standalone Codex / Claude Code plugins.",
       "documentation": [
         "README.md",
+        "CHANGELOG.md",
+        "docs/architecture.md",
+        "docs/audit-v0.1.md",
+        "docs/data-standard-v0.2.md",
+        "docs/models.md",
+        "docs/verification.md",
+        "docs/api.md",
+        "docs/mcp.md",
+        "docs/plugins.md",
         "docs/core-integration.md",
-        "references/README.md",
+        "docs/sources.md",
+        "docs/demo-dab-10kw.md",
+        "docs/waveform-informed-design.md",
         "LICENSING.md"
       ],
       "domains": [
         "power-electronics"
       ],
+      "extensions": {
+        "aipe.magnetics": {
+          "engineering_limitations": [
+            "Basic analytical sizing (Faraday, reluctance, window fill, Dowell 1-D); every catalogue core offered in the material is evaluated, no area-product pre-screening; no FEM, thermal, insulation or manufacturing analysis.",
+            "Waveform-informed transformer design: 1-D Dowell / leakage models, iGSE on the actual flux waveform, network or lumped thermal estimate with generic class conductivities; valid for the supplied operating point only; no FEM, insulation-system or manufacturing analysis.",
+            "Core-loss models need parameter sets covering the operating point; otherwise the request is rejected rather than extrapolated.",
+            "Uncertainty is reported as unknown unless a source quantifies it."
+          ],
+          "interfaces": {
+            "cli": "aipe-magnetics",
+            "mcp": "aipe-magnetics-mcp (stdio)",
+            "plugins": [
+              "plugins/claude/aipe-magnetics",
+              "plugins/codex/aipe-magnetics"
+            ],
+            "python_api": "aipe_magnetics.api"
+          },
+          "model_maturity": {
+            "aipe.magnetics.design_inductor": {
+              "family": "engineering",
+              "maturity": "usable",
+              "verification": "L2"
+            },
+            "aipe.magnetics.design_transformer": {
+              "family": "engineering",
+              "maturity": "usable",
+              "verification": "L2"
+            },
+            "aipe.magnetics.design_transformer_from_waveforms": {
+              "family": "engineering",
+              "maturity": "prototype",
+              "notes": "no verification level claimed: pytest-covered (synthetic and executed DAB waveforms) but no evidence record in the bundled registry yet, so results report the sizing as unverified while the iGSE loss model keeps its own status"
+            },
+            "aipe.magnetics.measurement_requests": {
+              "family": "engineering",
+              "maturity": "prototype",
+              "notes": "no verification level claimed: deterministic catalogue coverage assessment covered by pytest; no physical claim"
+            },
+            "aipe.magnetics.model.bertotti": {
+              "family": "physics",
+              "maturity": "prototype",
+              "verification": "L2"
+            },
+            "aipe.magnetics.model.datadriven.reference-steinmetz-ann": {
+              "family": "data_driven",
+              "maturity": "reference_only",
+              "notes": "synthetic reference surrogate; demonstrates the inference workflow, not a material",
+              "verification": "L2"
+            },
+            "aipe.magnetics.model.igse": {
+              "family": "empirical",
+              "maturity": "usable",
+              "verification": "L2"
+            },
+            "aipe.magnetics.model.jiles_atherton": {
+              "family": "physics",
+              "maturity": "prototype",
+              "verification": "L2"
+            },
+            "aipe.magnetics.model.ode_framework": {
+              "family": "dynamic",
+              "maturity": "prototype",
+              "verification": "L2"
+            },
+            "aipe.magnetics.model.steinmetz": {
+              "family": "empirical",
+              "maturity": "usable",
+              "verification": "L2"
+            },
+            "aipe.magnetics.validate_design": {
+              "family": "engineering",
+              "maturity": "usable",
+              "verification": "L2"
+            }
+          },
+          "optional_integrations": [
+            {
+              "id": "aipe.core",
+              "kind": "schema-roundtrip",
+              "notes": "Executable export/import adapter validated against pinned Core v0.1.0 schemas.",
+              "status": "tested-offline"
+            },
+            {
+              "id": "aipe.registry",
+              "kind": "manifest-validation",
+              "status": "tested-offline"
+            },
+            {
+              "id": "upb-lea/mag-net-hub",
+              "kind": "model-backend",
+              "license": "MIT",
+              "status": "optional"
+            },
+            {
+              "id": "upb-lea/materialdatabase",
+              "kind": "source-adapter",
+              "license": "GPL-3.0",
+              "notes": "No code copied; user checkout or on-demand download.",
+              "status": "optional"
+            },
+            {
+              "id": "PrincetonUniversity/magnet",
+              "kind": "source-adapter",
+              "license": "MIT",
+              "status": "optional"
+            },
+            {
+              "id": "minjiechen/magnetchallenge-2",
+              "kind": "source-adapter",
+              "license": "NOASSERTION",
+              "status": "reference-and-user-import"
+            }
+          ],
+          "package": "aipe-magnetics 0.2.0",
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "python": ">=3.10",
+          "runtime_requirements": {
+            "optional": {
+              "cad": [
+                "cadquery"
+              ],
+              "hdf5": [
+                "h5py"
+              ],
+              "magnethub": [
+                "magnethub"
+              ],
+              "mcp": [
+                "mcp"
+              ],
+              "mesh": [
+                "gmsh"
+              ],
+              "torch": [
+                "torch"
+              ],
+              "viz": [
+                "matplotlib"
+              ]
+            },
+            "required": [
+              "numpy",
+              "scipy",
+              "pydantic",
+              "jsonschema",
+              "referencing",
+              "PyYAML"
+            ]
+          },
+          "standalone_operation": {
+            "requires_aipe_orchestrator": false,
+            "requires_commercial_software": false,
+            "requires_llm_credentials": false,
+            "requires_other_domain_experts": false,
+            "requires_registry_service": false
+          },
+          "verification_evidence": [
+            "src/aipe_magnetics/verification/evidence/v0.2.0.json"
+          ]
+        }
+      },
       "id": "aipe.magnetics-database",
       "inputs": [
         {
-          "description": "Already normalized magnetic records with explicit evidence and SI units.",
+          "description": "Magnetic record (schema 0.1.0 or 0.2.0) with explicit evidence and SI units.",
           "name": "magnetic-record"
+        },
+        {
+          "description": "HDF5 waveform container in the aipe.magnetics.waveforms/0.2 layout with per-array units and checksums.",
+          "name": "waveform-dataset"
+        },
+        {
+          "description": "Sampled converter winding waveforms (AIPE DAB HDF5 layout /time + /channels/<name> with unit attributes, CSV with explicit units, or JSON) used as the excitation of the waveform-informed transformer design; SHA-256 of the file is recorded as evidence.",
+          "name": "converter-waveforms"
+        },
+        {
+          "description": "Typed inductor, transformer, core-loss or validation request (aipe_magnetics.api.types) in any registered unit.",
+          "name": "design-request"
+        },
+        {
+          "description": "AIPE-Core Engineering State 0.1.0 whose requirements seed a design request.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
       "license": "NOASSERTION",
-      "maturity": "scaffold",
-      "name": "AIPE Magnetics Database",
+      "maturity": "prototype",
+      "name": "AIPE Magnetics",
       "outputs": [
         {
-          "description": "Review candidate with original-byte checksum and importer version.",
+          "description": "Result envelope aipe.magnetics.result/0.2 with values, units, assumptions, model identity and version, sources, verification status, warnings and limitations.",
+          "name": "engineering-result"
+        },
+        {
+          "description": "Review candidate with original-byte checksum, importer version and normalisation record.",
           "name": "validated-import-candidate"
+        },
+        {
+          "description": "Machine-readable (JSON) and human-readable (Markdown) evidence per capability and operating range.",
+          "name": "verification-report"
+        },
+        {
+          "description": "Structured magnetic-material measurement requests (aipe.magnetics.measurement-request/0.3): per material and data category the catalogue coverage, test conditions and priority.",
+          "name": "measurement-request"
+        },
+        {
+          "description": "AIPE-Core Engineering State 0.1.0 fragment (magnetics entry plus evidence) produced by the tested round-trip adapter.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
       "repository": "https://github.com/FulongLi/AIPE-Magnetics-Database",
@@ -403,17 +1164,36 @@
       "tools": [
         {
           "capabilities": [
+            "magnetics-record-schema",
+            "magnetics-data-import",
             "magnetics-data-validation",
-            "magnetics-data-import"
+            "magnetics-data-migration",
+            "magnetics-waveform-storage",
+            "magnetics-source-adapters",
+            "magnetics-material-lookup",
+            "magnetics-material-comparison",
+            "magnetics-core-loss-estimation",
+            "magnetics-hysteresis-evaluation",
+            "magnetics-inductor-design",
+            "magnetics-transformer-design",
+            "magnetics-waveform-informed-transformer-design",
+            "magnetics-measurement-requests",
+            "magnetics-design-validation",
+            "magnetics-engineering-report",
+            "magnetics-verification-suite",
+            "magnetics-mcp-server",
+            "magnetics-core-state-export"
           ],
           "id": "python",
           "interfaces": [
             "cli",
-            "python"
+            "python",
+            "mcp"
           ],
           "licence_class": "open_source",
           "limitations": [
-            "Physical models require separate validation."
+            "Analytical design relations only (no finite-element, thermal or manufacturing verification).",
+            "Steinmetz/iGSE results are valid only inside the parameter-set ranges and ignore DC bias and minor loops."
           ],
           "name": "Python",
           "optional": false,
@@ -423,18 +1203,112 @@
             "macos"
           ],
           "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "magnetics-mcp-server"
+          ],
+          "id": "mcp-python-sdk",
+          "interfaces": [
+            "mcp"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Local stdio transport only; no remote or cloud service is required or provided."
+          ],
+          "name": "Model Context Protocol Python SDK",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://github.com/modelcontextprotocol/python-sdk"
+        },
+        {
+          "capabilities": [
+            "magnetics-agent-plugin"
+          ],
+          "id": "claude-code",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "free_proprietary",
+          "limitations": [
+            "Host only; all engineering numbers come from the Python engine through the MCP server or CLI."
+          ],
+          "name": "Claude Code",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://code.claude.com/"
+        },
+        {
+          "capabilities": [
+            "magnetics-agent-plugin"
+          ],
+          "id": "codex-cli",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Host only; requires a user account for the model service; all engineering numbers come from the Python engine."
+          ],
+          "name": "OpenAI Codex CLI",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://github.com/openai/codex"
+        },
+        {
+          "capabilities": [
+            "magnetics-core-loss-estimation"
+          ],
+          "id": "pytorch",
+          "interfaces": [
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Optional backend for user-supplied trained models; no trained material model is bundled."
+          ],
+          "name": "PyTorch",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://pytorch.org/"
         }
       ],
-      "type": "database",
+      "type": "tool",
       "validation": {
         "evidence": [
           "tests/test_records.py",
-          ".github/workflows/validate.yml"
+          "tests/engineering/test_design_capabilities.py",
+          "tests/mcp/test_server.py",
+          "tests/integrations/test_core_roundtrip.py",
+          "tests/integrations/test_registry_manifest.py",
+          "tests/plugins/test_packaging.py",
+          "docs/verification-report-v0.2.0.md",
+          "src/aipe_magnetics/verification/evidence/v0.2.0.json",
+          "docs/release-verification-v0.2.0.md",
+          ".github/workflows/validate.yml",
+          ".github/workflows/ci.yml"
         ],
         "limitations": [
-          "No real manufacturer or measurement records bundled.",
-          "Core integration is documented mapping only; no executed Core export.",
-          "No field solver or measurement validation claimed.",
+          "Verification evidence is recorded per capability and operating range (levels L1-L3); there is no repository-wide validated flag.",
+          "Model implementations are verified against analytical, independent-numerical and published references (L2); no experimental (L3) validation is bundled.",
+          "Material and core parameters are datasheet-derived with locators and remain review_status unreviewed until an owner review.",
+          "No third-party datasets are redistributed; adapters download or import on demand subject to each source licence.",
           "Repository licence remains NOASSERTION pending owner decision."
         ],
         "status": "tested"
@@ -720,7 +1594,11 @@
       "capabilities": [
         "semiconductor-data",
         "semiconductor-query",
-        "semiconductor-core-candidate-export"
+        "semiconductor-core-candidate-export",
+        "semiconductor-loss-evaluation",
+        "semiconductor-dab-screening",
+        "semiconductor-measurement-requests",
+        "candidate-device-import"
       ],
       "compatibility": {
         "core": "0.1.x",
@@ -735,12 +1613,14 @@
           "version": "0.1.x"
         }
       ],
-      "description": "Canonical V3 power semiconductor records with SI curves, source rights, evidence lineage and a conservative Core candidate adapter.",
+      "description": "Canonical V3 power semiconductor records with SI curves, source rights, evidence lineage, a conservative Core candidate adapter, DAB switch loss evaluation on actual waveform stress, evidence-tiered device screening, datasheet candidate import and prioritised measurement requests.",
       "documentation": [
         "README.md",
+        "docs/dab-loss-screening.md",
         "docs/core-integration.md",
         "docs/architecture.md",
-        "LICENSING.md"
+        "LICENSING.md",
+        "data/candidates/README.md"
       ],
       "domains": [
         "power-electronics"
@@ -754,6 +1634,14 @@
         {
           "description": "Manufacturer models, explicit import mappings and measurement packages.",
           "name": "raw-device-evidence"
+        },
+        {
+          "description": "AIPE DAB waveform summary (aipe-dab-waveform-summary/0.1) or sampled switch waveforms (HDF5) providing actual switch stress.",
+          "name": "waveform-summary"
+        },
+        {
+          "description": "Structured as-printed datasheet transcription (aipe-datasheet-transcription/0.1, YAML/JSON) for reviewable candidate records.",
+          "name": "datasheet-transcription"
         }
       ],
       "license": "NOASSERTION",
@@ -768,6 +1656,22 @@
           "description": "Candidate identity and source evidence for Engineering State 0.1.0.",
           "name": "core-candidate",
           "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/semiconductor.schema.json"
+        },
+        {
+          "description": "Per-switch conduction/turn-off/turn-on loss records (physics_derived) with tensor lineage and a coverage list of unavailable quantities (aipe-dab-loss-evaluation/0.1).",
+          "name": "dab-loss-evaluation"
+        },
+        {
+          "description": "Evidence-tiered per-bridge device ranking with electrical, loss, thermal and confidence breakdown (aipe-dab-screening/0.1).",
+          "name": "dab-screening-report"
+        },
+        {
+          "description": "Draft MeasurementRequest items with engineering questions, uncertainty targets and benefit x uncertainty priorities (aipe-prioritised-measurement-request/0.1).",
+          "name": "prioritised-measurement-request"
+        },
+        {
+          "description": "Unreviewed schema 3.0.0 candidate records with datasheet URL evidence, absent-field flags and canonical links; never canonical.",
+          "name": "candidate-device-record"
         }
       ],
       "repository": "https://github.com/FulongLi/AIPE-Semiconductor-Database",
@@ -778,7 +1682,11 @@
           "capabilities": [
             "semiconductor-data-query",
             "data-validation",
-            "core-candidate-export"
+            "core-candidate-export",
+            "dab-loss-evaluation",
+            "dab-device-screening",
+            "measurement-request-generation",
+            "candidate-device-import"
           ],
           "id": "python",
           "interfaces": [
@@ -787,7 +1695,8 @@
           ],
           "licence_class": "open_source",
           "limitations": [
-            "Physical models require separate validation."
+            "Physical models require separate validation.",
+            "Loss evaluation uses manufacturer model/datasheet data; no measured evidence backs it."
           ],
           "name": "Python",
           "optional": false,
@@ -846,12 +1755,22 @@
         "evidence": [
           "tests/unit/test_core_export.py",
           "tests/integration/test_repository_corpus.py",
+          "tests/unit/test_nd_interpolation.py",
+          "tests/unit/test_dab_losses.py",
+          "tests/unit/test_thermal.py",
+          "tests/unit/test_datasheet_importer.py",
+          "tests/unit/test_dab_screening.py",
+          "tests/unit/test_measurement_requests.py",
+          "tests/integration/test_dab_cli.py",
+          "tests/integration/test_dab_examples.py",
           ".github/workflows/tests.yml"
         ],
         "limitations": [
           "Identity/source mapping only; detailed ratings and curves stay in V3 records.",
           "Manufacturer model data is not converted into measured evidence.",
-          "Existing code and data rights remain NOASSERTION; see LICENSING.md."
+          "Existing code and data rights remain NOASSERTION; see LICENSING.md.",
+          "DAB losses derive from manufacturer PLECS tensors and datasheet points; ZVS turn-on loss is zero by assumption without Coss/Eoss evidence.",
+          "Candidate device records are unreviewed datasheet transcriptions and are not canonical evidence."
         ],
         "status": "tested"
       }
@@ -863,7 +1782,10 @@
         "mechanical-packaging",
         "pcb-power-stage-review",
         "field-analysis-problem-setup",
-        "digital-control-debugging"
+        "digital-control-debugging",
+        "dab-switching-circuit-generation",
+        "waveform-analysis-engine",
+        "solver-tool-qualification"
       ],
       "compatibility": {
         "core": "0.1.x",
@@ -919,13 +1841,15 @@
           "version": "0.1.x"
         }
       ],
-      "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows.",
+      "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows, plus the executable aipe_simulation package: ngspice qualification and batch runner, dual-active-bridge switching-circuit generator (ideal and behavioural levels) and a solver-independent waveform analysis engine (HDF5 datasets, steady-state detection, per-switch metrics).",
       "documentation": [
         "README.md",
         "docs/tool-policy.md",
         "docs/core-mapping.md",
         "skills.json",
-        "docs/validation.md"
+        "docs/validation.md",
+        "docs/dab-models.md",
+        "pyproject.toml"
       ],
       "domains": [
         "power-electronics"
@@ -945,7 +1869,7 @@
         }
       ],
       "license": "NOASSERTION",
-      "maturity": "prototype",
+      "maturity": "usable",
       "name": "AIPE Simulation Skills",
       "outputs": [
         {
@@ -959,7 +1883,9 @@
       "tools": [
         {
           "capabilities": [
-            "numerical-analysis"
+            "dab-switching-circuit-generation",
+            "numerical-analysis",
+            "waveform-analysis-engine"
           ],
           "id": "python",
           "interfaces": [
@@ -1002,7 +1928,10 @@
         },
         {
           "capabilities": [
-            "switching-circuit-simulation"
+            "dab-switching-circuit-generation",
+            "solver-tool-qualification",
+            "switching-circuit-simulation",
+            "waveform-analysis-engine"
           ],
           "id": "ngspice",
           "interfaces": [
@@ -1011,7 +1940,8 @@
           ],
           "licence_class": "open_source",
           "limitations": [
-            "Synthetic switched buck smoke example; model-specific device compatibility and convergence checks required."
+            "Executed Level 1 (ideal) and Level 2 (behavioural) DAB models with analytical cross-checks; manufacturer device models (Level 3) are not executed and need per-model compatibility review.",
+            "Windows portable build is not on PATH: set AIPE_NGSPICE or AIPE_TOOLS_DIR."
           ],
           "name": "ngspice",
           "optional": true,
@@ -1309,12 +2239,21 @@
         "evidence": [
           "tests/test_open_examples.py",
           "tests/test_metadata.py",
-          "docs/validation.md"
+          "docs/validation.md",
+          "tests/test_dab_ngspice.py",
+          "tests/test_dab_spec_netlist.py",
+          "tests/test_metrics.py",
+          "tests/test_steady_state.py",
+          "tests/test_rawfile.py",
+          "tests/test_gating.py",
+          "tests/test_dataset.py",
+          "docs/dab-models.md"
         ],
         "limitations": [
-          "Local Python numerical tests passed; ngspice requires separate installed runtime and is run in Ubuntu CI.",
-          "FreeCAD, KiCad, FEA solvers and MCP connectors not installed or executed.",
-          "No measurements or full Engineering State round-trip adapter claimed."
+          "Local Python numerical tests passed; ngspice solver tests (tests/test_dab_ngspice.py, marker 'solver') ran against ngspice 47 on Windows and are skipped when ngspice is absent.",
+          "Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.",
+          "FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.",
+          "No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence."
         ],
         "status": "tested"
       }
@@ -1333,24 +2272,80 @@
       "dependencies": [
         {
           "id": "aipe.core",
-          "optional": false,
+          "optional": true,
           "version": "0.1.x"
         }
       ],
-      "description": "Render explicit electrical Circuit IR into connectivity-checked SVG schematic artifacts with provenance.",
+      "description": "AI-powered electrical schematic generation for power electronics and circuit engineering. Renders explicit Circuit IR into connectivity-checked SVG schematics with validation reports and provenance; installable as a Codex and Claude Code plugin.",
       "documentation": [
         "README.md",
+        "docs/README.md",
+        "docs/plugins.md",
+        "docs/cli.md",
         "docs/engineering-state.md",
-        "docs/architecture.md"
+        "docs/architecture.md",
+        "LICENSE",
+        "THIRD_PARTY_NOTICES.md"
       ],
       "domains": [
         "power-electronics",
         "circuit-documentation"
       ],
+      "extensions": {
+        "aipe.sketch": {
+          "identifiers": {
+            "engineering_state_extension": "aipe.sketch",
+            "notes": "Product renamed from AIPE Sketch to AIPE Sketcher in 0.2.0; machine identifiers are unchanged, so no state migration is needed.",
+            "plugin_name": "aipe-sketcher",
+            "provenance_tool_id": "aipe.sketch",
+            "registry_id": "aipe.sketch"
+          },
+          "interfaces": {
+            "cli": "aipe-sketcher",
+            "plugins": {
+              "claude_code": ".claude-plugin/plugin.json",
+              "codex": "plugin.json",
+              "skill": "skills/schematic/SKILL.md"
+            },
+            "python_api": "aipe_sketch.Schematic.from_netlist"
+          },
+          "optional_integrations": [
+            {
+              "id": "aipe.core",
+              "kind": "engineering-state-input",
+              "notes": "Reads extensions.aipe.sketch.circuit_ir from Engineering State 0.1.0; full state validation remains AIPE-Core's responsibility.",
+              "status": "tested-offline"
+            }
+          ],
+          "package": "aipe-sketcher 0.2.0",
+          "python": ">=3.9",
+          "python_package": "aipe_sketch",
+          "runtime_requirements": {
+            "optional": {},
+            "required": []
+          },
+          "standalone_operation": {
+            "requires_aipe_core": false,
+            "requires_commercial_software": false,
+            "requires_llm_credentials": false,
+            "requires_network": false,
+            "requires_other_domain_experts": false,
+            "requires_registry_service": false
+          },
+          "third_party": [
+            {
+              "files": "assets/master/Inkscape_Symbols_All.svg",
+              "license": "CC0-1.0",
+              "name": "UPB-LEA Inkscape electric symbols",
+              "url": "https://github.com/upb-lea/Inkscape_electric_Symbols"
+            }
+          ]
+        }
+      },
       "id": "aipe.sketch",
       "inputs": [
         {
-          "description": "Explicit versioned Netlist electrical graph.",
+          "description": "Explicit versioned Netlist electrical graph (Circuit IR JSON version 1).",
           "name": "circuit-ir"
         },
         {
@@ -1359,26 +2354,31 @@
           "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
         }
       ],
-      "license": "NOASSERTION",
+      "license": "LicenseRef-AIPE-Sketcher-Personal-NonCommercial-0.1 AND CC0-1.0",
       "maturity": "usable",
-      "name": "AIPE Sketch",
+      "name": "AIPE Sketcher",
       "outputs": [
         {
           "description": "SVG with unchanged electrical connectivity.",
           "name": "schematic-svg"
         },
         {
+          "description": "JSON report of electrical validation, drawing connectivity and layout quality.",
+          "name": "validation-report"
+        },
+        {
           "description": "Hash-linked artifact and source-state metadata.",
           "name": "provenance"
         }
       ],
-      "repository": "https://github.com/FulongLi/AIPE-Sketch",
+      "repository": "https://github.com/FulongLi/AIPE-Sketcher",
       "schema_version": "0.1.0",
       "status": "active",
       "tools": [
         {
           "capabilities": [
-            "schematic-generation"
+            "schematic-generation",
+            "circuit-connectivity-validation"
           ],
           "id": "python",
           "interfaces": [
@@ -1387,6 +2387,7 @@
           ],
           "licence_class": "open_source",
           "limitations": [
+            "Python 3.9 or newer; standard library only.",
             "Drawing connectivity validation is not physical validation."
           ],
           "name": "Python",
@@ -1419,16 +2420,332 @@
             "macos"
           ],
           "url": "https://inkscape.org/"
+        },
+        {
+          "capabilities": [
+            "schematic-generation"
+          ],
+          "id": "codex-cli",
+          "interfaces": [
+            "cli",
+            "gui"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Agent host only; requires a user account for the model service. All drawing and validation run in the local Python engine."
+          ],
+          "name": "OpenAI Codex",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://github.com/openai/codex"
+        },
+        {
+          "capabilities": [
+            "schematic-generation"
+          ],
+          "id": "claude-code",
+          "interfaces": [
+            "cli",
+            "gui"
+          ],
+          "licence_class": "free_proprietary",
+          "limitations": [
+            "Agent host only; requires a user account for the model service. All drawing and validation run in the local Python engine."
+          ],
+          "name": "Claude Code",
+          "optional": true,
+          "platforms": [
+            "linux",
+            "windows",
+            "macos"
+          ],
+          "url": "https://code.claude.com/"
         }
       ],
       "type": "tool",
       "validation": {
         "evidence": [
           "tests/test_state.py",
-          "tests/test_pipeline.py"
+          "tests/test_pipeline.py",
+          "tests/test_cli.py",
+          "tests/test_plugin_packaging.py"
         ],
         "limitations": [
           "Explicit Circuit IR and complete Core validation are required separately; no device sizing or physical results are inferred."
+        ],
+        "status": "tested"
+      }
+    },
+    {
+      "capabilities": [
+        "engineering-workflow-execution",
+        "workflow-task-graph",
+        "capability-discovery-client",
+        "environment-tool-qualification",
+        "engineering-state-provenance",
+        "verification-gate-ledger",
+        "engineering-report-assembly"
+      ],
+      "compatibility": {
+        "core": "0.1.x",
+        "engineering_state": "0.1.x",
+        "integration": "native"
+      },
+      "connectors": [],
+      "dependencies": [
+        {
+          "id": "aipe.core",
+          "optional": false,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.registry",
+          "optional": false,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.design-agent",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.simulation-skills",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.semiconductor-database",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.magnetics-database",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.field-simulation",
+          "optional": true,
+          "version": "0.1.x"
+        },
+        {
+          "id": "aipe.cad-agent",
+          "optional": true,
+          "version": "0.1.x"
+        }
+      ],
+      "description": "System-level engineering workflow engine executing typed, checkpointed task graphs over AIPE specialist capabilities (design agent, simulation skills, semiconductor and magnetics databases, field simulation, CAD agent), with local tool qualification, Engineering State provenance, cross-module feedback iterations, verification gates and report assembly; first benchmark is the simulation-driven 10 kW dual-active-bridge converter.",
+      "documentation": [
+        "README.md",
+        "docs/architecture.md",
+        "docs/execution-envelope.md",
+        "docs/capability-matrix.md",
+        "workflows/converter_dab/README.md",
+        "examples/dab-10kw/README.md"
+      ],
+      "domains": [
+        "power-engineering",
+        "power-electronics"
+      ],
+      "id": "aipe.workflows",
+      "inputs": [
+        {
+          "description": "YAML/JSON specification (schema_version 0.1.0) with requested ratings, converter assumptions and labelled constraints.",
+          "name": "workflow-specification"
+        },
+        {
+          "description": "Versioned workflow.yaml task graph naming Registry capabilities, adapters, tools and verification gates.",
+          "name": "workflow-definition"
+        },
+        {
+          "description": "Core v0.1 Engineering State consumed and extended through adapters.",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        },
+        {
+          "description": "Generated AIPE Registry index or sibling aipe.yaml manifests for capability discovery.",
+          "name": "registry-index"
+        }
+      ],
+      "license": "MIT",
+      "maturity": "prototype",
+      "name": "AIPE Workflows",
+      "outputs": [
+        {
+          "description": "Checkpointed run with specification, environment manifest, plan, per-task execution envelopes, hashed artifacts and verification ledger.",
+          "name": "run-directory"
+        },
+        {
+          "description": "Versioned Engineering State files after every accepted proposal (earlier versions preserved).",
+          "name": "engineering-state",
+          "schema": "https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json"
+        },
+        {
+          "description": "report.json, report.md and an AIPE-Doc styled report.html with executed results, figures, gate statuses, blocked items and reproduction commands.",
+          "name": "review-package"
+        },
+        {
+          "description": "iterations.json of a run: child runs derived with changed inputs, re-executed tasks, observable comparison and accept/reject decisions with reasons.",
+          "name": "iteration-ledger"
+        }
+      ],
+      "repository": "https://github.com/FulongLi/AIPE-Workflows",
+      "schema_version": "0.1.0",
+      "status": "experimental",
+      "tools": [
+        {
+          "capabilities": [
+            "engineering-workflow-execution",
+            "workflow-task-graph",
+            "capability-discovery-client",
+            "engineering-state-provenance",
+            "verification-gate-ledger",
+            "engineering-report-assembly"
+          ],
+          "id": "python",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Python 3.10 or newer; the engine validates states with the sibling AIPE-Core checkout's own validator."
+          ],
+          "name": "Python",
+          "optional": false,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.python.org/"
+        },
+        {
+          "capabilities": [
+            "environment-tool-qualification"
+          ],
+          "id": "ngspice",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Qualified by an RC step-response test; circuit models are provided by AIPE-Simulation-Skills."
+          ],
+          "name": "ngspice",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://ngspice.sourceforge.io/"
+        },
+        {
+          "capabilities": [
+            "environment-tool-qualification"
+          ],
+          "id": "kicad",
+          "interfaces": [
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Only kicad-cli presence and version are qualified here."
+          ],
+          "name": "KiCad",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.kicad.org/"
+        },
+        {
+          "capabilities": [
+            "environment-tool-qualification"
+          ],
+          "id": "freecad",
+          "interfaces": [
+            "cli",
+            "python"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Qualified by a headless box volume and STEP export test."
+          ],
+          "name": "FreeCAD",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://www.freecad.org/"
+        },
+        {
+          "capabilities": [
+            "environment-tool-qualification"
+          ],
+          "id": "gmsh",
+          "interfaces": [
+            "python",
+            "cli"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Qualified by a unit-cube tetrahedral mesh test through the Python SDK."
+          ],
+          "name": "Gmsh",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://gmsh.info/"
+        },
+        {
+          "capabilities": [
+            "environment-tool-qualification"
+          ],
+          "id": "elmer",
+          "interfaces": [
+            "cli",
+            "sif"
+          ],
+          "licence_class": "open_source",
+          "limitations": [
+            "Qualified by a 2-D steady heat-conduction slab against the analytic temperature rise."
+          ],
+          "name": "Elmer FEM",
+          "optional": true,
+          "platforms": [
+            "windows",
+            "linux",
+            "macos"
+          ],
+          "url": "https://github.com/ElmerCSC/elmerfem"
+        }
+      ],
+      "type": "agent",
+      "validation": {
+        "evidence": [
+          "tests/test_engine.py",
+          "tests/test_adapter_mappings.py",
+          "examples/dab-10kw/README.md",
+          "examples/dab-10kw/results/report.md"
+        ],
+        "limitations": [
+          "The DAB reference run executes analytical design, ngspice Levels 1 and 2, waveform-informed magnetics, device screening and losses, SPS control baseline, cooling comparison and heat-sink screening, Gmsh/Elmer window and heat-sink FEM, and FreeCAD transformer and heat-sink geometry; PCB boards are produced by AIPE-PCB-Agent outside the task graph and CFD, manufacturer SPICE models (Level 3), measurement and hardware stages are not executed.",
+          "Specialist results are analytical correlations, manufacturer data or executed numerical models with stated validity ranges; none is a measured value.",
+          "A completed workflow run establishes software and simulation gates only; engineering review, experimental measurement and hardware qualification are separate statuses that this engine never asserts.",
+          "Capability discovery reads manifests as data; it does not execute connectors or install software."
         ],
         "status": "tested"
       }

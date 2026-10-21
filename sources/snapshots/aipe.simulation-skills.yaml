@@ -6,9 +6,9 @@
   "domains": [
     "power-electronics"
   ],
-  "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows.",
+  "description": "Engineering-purpose simulation, control, CAD, PCB and field-analysis skills with an open-source default and preserved optional proprietary workflows, plus the executable aipe_simulation package: ngspice qualification and batch runner, dual-active-bridge switching-circuit generator (ideal and behavioural levels) and a solver-independent waveform analysis engine (HDF5 datasets, steady-state detection, per-switch metrics).",
   "status": "active",
-  "maturity": "prototype",
+  "maturity": "usable",
   "repository": "https://github.com/FulongLi/AIPE-Simulation-Skills",
   "license": "NOASSERTION",
   "capabilities": [
@@ -17,7 +17,10 @@
     "mechanical-packaging",
     "pcb-power-stage-review",
     "field-analysis-problem-setup",
-    "digital-control-debugging"
+    "digital-control-debugging",
+    "dab-switching-circuit-generation",
+    "waveform-analysis-engine",
+    "solver-tool-qualification"
   ],
   "inputs": [
     {
@@ -49,7 +52,9 @@
       "id": "python",
       "name": "Python",
       "capabilities": [
-        "numerical-analysis"
+        "dab-switching-circuit-generation",
+        "numerical-analysis",
+        "waveform-analysis-engine"
       ],
       "licence_class": "open_source",
       "optional": false,
@@ -92,7 +97,10 @@
       "id": "ngspice",
       "name": "ngspice",
       "capabilities": [
-        "switching-circuit-simulation"
+        "dab-switching-circuit-generation",
+        "solver-tool-qualification",
+        "switching-circuit-simulation",
+        "waveform-analysis-engine"
       ],
       "licence_class": "open_source",
       "optional": true,
@@ -107,7 +115,8 @@
       ],
       "url": "https://ngspice.sourceforge.io/",
       "limitations": [
-        "Synthetic switched buck smoke example; model-specific device compatibility and convergence checks required."
+        "Executed Level 1 (ideal) and Level 2 (behavioural) DAB models with analytical cross-checks; manufacturer device models (Level 3) are not executed and need per-model compatibility review.",
+        "Windows portable build is not on PATH: set AIPE_NGSPICE or AIPE_TOOLS_DIR."
       ]
     },
     {
@@ -439,12 +448,21 @@
     "evidence": [
       "tests/test_open_examples.py",
       "tests/test_metadata.py",
-      "docs/validation.md"
+      "docs/validation.md",
+      "tests/test_dab_ngspice.py",
+      "tests/test_dab_spec_netlist.py",
+      "tests/test_metrics.py",
+      "tests/test_steady_state.py",
+      "tests/test_rawfile.py",
+      "tests/test_gating.py",
+      "tests/test_dataset.py",
+      "docs/dab-models.md"
     ],
     "limitations": [
-      "Local Python numerical tests passed; ngspice requires separate installed runtime and is run in Ubuntu CI.",
-      "FreeCAD, KiCad, FEA solvers and MCP connectors not installed or executed.",
-      "No measurements or full Engineering State round-trip adapter claimed."
+      "Local Python numerical tests passed; ngspice solver tests (tests/test_dab_ngspice.py, marker 'solver') ran against ngspice 47 on Windows and are skipped when ngspice is absent.",
+      "Executed DAB simulations are Level 1 ideal and Level 2 behavioural models with datasheet-sourced parameters; no manufacturer SPICE model (Level 3) has been executed or validated.",
+      "FreeCAD, KiCad, FEA solvers and MCP connectors are not executed by this repository; their skills remain procedural guidance.",
+      "No measurements or full Engineering State round-trip adapter claimed; AIPE-Workflows maps the run outputs into Core evidence."
     ]
   },
   "documentation": [
@@ -452,7 +470,9 @@
     "docs/tool-policy.md",
     "docs/core-mapping.md",
     "skills.json",
-    "docs/validation.md"
+    "docs/validation.md",
+    "docs/dab-models.md",
+    "pyproject.toml"
   ],
   "extensions": {
     "aipe.skills": {
