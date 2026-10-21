@@ -1,0 +1,86 @@
+schema_version: 0.1.0
+id: aipe.cad-agent
+name: AIPE CAD Agent
+type: tool
+domains: [power-electronics, mechanical-packaging, thermal-management]
+description: Parametric FreeCAD geometry for power-converter transformers, plate-fin heat sinks, liquid cold plates and full converter assemblies, with STEP/FCStd export, mesh metadata and interference/clearance checks driven by JSON parameters in SI units.
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-CAD-Agent
+license: MIT
+capabilities: [parametric-transformer-cad, heat-sink-cad, cold-plate-cad, converter-assembly-cad, cad-interference-clearance-check]
+inputs:
+  - name: transformer-parameters
+    description: 'E-core transformer parameters (core letters, bobbin, windings with wire data, insulation, terminals, mounting, check requirements) in SI metres.'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/transformer.schema.json'
+  - name: heatsink-parameters
+    description: 'Plate-fin heat sink parameters including device footprints and isolation hardware.'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/heatsink.schema.json'
+  - name: coldplate-parameters
+    description: 'Liquid cold plate parameters with serpentine channel, cover, ports and device footprints.'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/coldplate.schema.json'
+  - name: assembly-parameters
+    description: 'Converter assembly layout (chassis, cooling instances, transformer, boards with copper zones and keep-outs, connectors) referencing the component files.'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-CAD-Agent/main/src/aipe_cad/schemas/assembly.schema.json'
+outputs:
+  - name: cad-geometry
+    description: 'Editable FreeCAD FCStd document and STEP file per component and for the assembly; STEP product names equal the metadata body names.'
+  - name: cad-metadata
+    description: 'JSON with bounding boxes, volumes, surface areas, masses per material, contacts and Gmsh mesh hints (regions, material tags, element sizes) in SI units.'
+  - name: cad-check-report
+    description: 'JSON report of pairwise interference volumes, keep-out and envelope intrusions, fit distances and net-to-net clearance measurements against caller-supplied requirements.'
+dependencies: []
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: none}
+tools:
+  - id: python
+    name: Python
+    capabilities: [parameter-validation, derived-geometry-rules, orchestration]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [windows, linux, macos]
+    url: https://www.python.org/
+    limitations:
+      - 'Python 3.10+ for the orchestration layer; the parameter package is standard-library only so that the Python embedded in FreeCAD can import it.'
+  - id: freecad
+    name: FreeCAD
+    capabilities: [parametric-transformer-cad, heat-sink-cad, cold-plate-cad, converter-assembly-cad, cad-interference-clearance-check]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [windows, linux, macos]
+    url: https://www.freecad.org/
+    limitations:
+      - 'Executed headless through freecadcmd (tested with FreeCAD 1.1.4 on Windows); geometry is built in millimetres and converted at the boundary.'
+      - 'No GUI colours or appearance data are written to the FCStd/STEP files in console mode.'
+      - 'Renders are matplotlib projections of tessellated shapes, not Coin3D offscreen renders.'
+  - id: cadquery
+    name: CadQuery
+    capabilities: [heat-sink-cad]
+    licence_class: open_source
+    optional: true
+    interfaces: [python]
+    platforms: [windows, linux, macos]
+    url: https://cadquery.readthedocs.io/
+    limitations:
+      - 'Experimental in-process alternative for the heat-sink body only (STEP export); no checks, devices or FCStd output.'
+connectors: []
+validation:
+  status: tested
+  evidence:
+    - tests/test_units_materials_geometry.py
+    - tests/test_transformer_params.py
+    - tests/test_heatsink_coldplate_params.py
+    - tests/test_assembly_params_and_schema.py
+    - tests/test_cli_and_manifest.py
+    - tests/test_freecad_workers.py
+    - tests/test_cadquery_backend.py
+    - examples/dab-10kw/summary.json
+  limitations:
+    - 'Illustrative parametric models for layout, mass and clearance studies; not manufacturable designs and no DFM claims.'
+    - 'Windings are homogenised annular bodies with layer thickness derived from wire data; individual turns, lead-outs and bends are not modelled.'
+    - 'Clearance is measured as straight-line or one-bend air paths with Part.Shape.distToShape; creepage along insulating surfaces is not traced and conductors fully enclosed in insulation are reported for review.'
+    - 'Required clearance and creepage values are caller inputs; no compliance with any standard is asserted.'
+    - 'TDK E65/32/27 and Wolfspeed TO-247-4L dimensions are nominal values transcribed from the cited data sheets and must be verified against the current revisions.'
+    - 'No Engineering State adapter yet; integration with AIPE Core is planned, not implemented.'
+documentation: [README.md, docs/parameters.md, examples/dab-10kw/README.md]

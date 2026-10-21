@@ -5,27 +5,41 @@
   "type": "education",
   "domains": [
     "power-engineering",
-    "power-electronics"
+    "power-electronics",
+    "power-systems",
+    "renewable-energy"
   ],
-  "description": "Original Power Engineering learning paths, with power electronics as the v0.1 curriculum.",
+  "description": "Original, AI-native Power and Energy Engineering curriculum in four domains (Foundations, Power Electronics, Power Systems, Renewable Energy) with reproducible Python labs, a verified MIT OpenCourseWare academic baseline, and a shared Codex skill / Claude Code plugin.",
   "status": "active",
   "maturity": "prototype",
   "repository": "https://github.com/FulongLi/AIPE-Academy",
   "license": "CC-BY-4.0",
   "capabilities": [
     "guided-engineering-education",
-    "open-source-converter-labs"
+    "open-source-converter-labs",
+    "reproducible-engineering-labs",
+    "academic-reference-baseline",
+    "codex-skill",
+    "claude-code-plugin"
   ],
   "inputs": [
     {
       "name": "learner-evidence",
-      "description": "Local learner progress and demonstrated prerequisites."
+      "description": "Local learner progress and demonstrated prerequisites (learning/progress.json, never committed)."
     }
   ],
   "outputs": [
     {
       "name": "lesson-catalogue",
-      "description": "Deterministic metadata, stable URLs and content hashes in generated/lessons.json."
+      "description": "Deterministic metadata, stable URLs, content hashes and translations in generated/lessons.json."
+    },
+    {
+      "name": "knowledge-graph",
+      "description": "Domain -> Track -> Module taxonomy with lesson attachments, coverage status and learning paths in generated/knowledge-graph.json."
+    },
+    {
+      "name": "academic-references",
+      "description": "Verified MIT OpenCourseWare reference baseline with module mapping in generated/academic-references.json."
     }
   ],
   "dependencies": [
@@ -60,7 +74,28 @@
       ],
       "url": "https://www.python.org/",
       "limitations": [
-        "Physical models require separate validation."
+        "Labs are analytical or numerical teaching models; physical performance requires separate validation."
+      ]
+    },
+    {
+      "id": "matplotlib",
+      "name": "Matplotlib",
+      "capabilities": [
+        "plotting"
+      ],
+      "licence_class": "open_source",
+      "optional": true,
+      "interfaces": [
+        "python"
+      ],
+      "platforms": [
+        "linux",
+        "windows",
+        "macos"
+      ],
+      "url": "https://matplotlib.org/",
+      "limitations": [
+        "Only used behind the optional --plot flag of the labs."
       ]
     }
   ],
@@ -68,15 +103,28 @@
   "validation": {
     "status": "tested",
     "evidence": [
-      "tests/test_curriculum.py"
+      "tests/test_curriculum.py",
+      "tests/test_taxonomy.py",
+      "tests/test_references.py",
+      "tests/test_lab_dc_circuits.py",
+      "tests/test_lab_buck_switching.py",
+      "tests/test_lab_three_phase.py",
+      "tests/test_lab_pv_model.py",
+      "tests/test_academy_cli.py",
+      "tests/test_plugin_packaging.py"
     ],
     "limitations": [
-      "Most curriculum stages remain outlines, not completed courses.",
-      "The buck lab is ideal analytical teaching, not hardware validation."
+      "Most modules remain outlines or planned; one complete reference lesson exists per domain.",
+      "Labs are ideal analytical or numerical teaching models, not hardware validation.",
+      "The MIT OpenCourseWare baseline is a scope reference; AIPE Academy is not affiliated with or endorsed by MIT."
     ]
   },
   "documentation": [
     "README.md",
+    "docs/architecture.md",
+    "docs/curriculum-guide.md",
+    "docs/plugin-installation.md",
+    "docs/website-integration.md",
     "docs/ecosystem-v0.1.md"
   ]
 }

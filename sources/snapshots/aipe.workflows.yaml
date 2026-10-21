@@ -1,0 +1,106 @@
+schema_version: 0.1.0
+id: aipe.workflows
+name: AIPE Workflows
+type: agent
+domains: [power-engineering, power-electronics]
+description: System-level engineering workflow engine executing typed, checkpointed task graphs over AIPE specialist capabilities (design agent, simulation skills, semiconductor and magnetics databases, field simulation, CAD agent), with local tool qualification, Engineering State provenance, cross-module feedback iterations, verification gates and report assembly; first benchmark is the simulation-driven 10 kW dual-active-bridge converter.
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Workflows
+license: MIT
+capabilities: [engineering-workflow-execution, workflow-task-graph, capability-discovery-client, environment-tool-qualification, engineering-state-provenance, verification-gate-ledger, engineering-report-assembly]
+inputs:
+  - name: workflow-specification
+    description: 'YAML/JSON specification (schema_version 0.1.0) with requested ratings, converter assumptions and labelled constraints.'
+  - name: workflow-definition
+    description: 'Versioned workflow.yaml task graph naming Registry capabilities, adapters, tools and verification gates.'
+  - name: engineering-state
+    description: 'Core v0.1 Engineering State consumed and extended through adapters.'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json'
+  - name: registry-index
+    description: 'Generated AIPE Registry index or sibling aipe.yaml manifests for capability discovery.'
+outputs:
+  - name: run-directory
+    description: 'Checkpointed run with specification, environment manifest, plan, per-task execution envelopes, hashed artifacts and verification ledger.'
+  - name: engineering-state
+    description: 'Versioned Engineering State files after every accepted proposal (earlier versions preserved).'
+    schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json'
+  - name: review-package
+    description: 'report.json, report.md and an AIPE-Doc styled report.html with executed results, figures, gate statuses, blocked items and reproduction commands.'
+  - name: iteration-ledger
+    description: 'iterations.json of a run: child runs derived with changed inputs, re-executed tasks, observable comparison and accept/reject decisions with reasons.'
+dependencies:
+  - {id: aipe.core, version: 0.1.x, optional: false}
+  - {id: aipe.registry, version: 0.1.x, optional: false}
+  - {id: aipe.design-agent, version: 0.1.x, optional: true}
+  - {id: aipe.simulation-skills, version: 0.1.x, optional: true}
+  - {id: aipe.semiconductor-database, version: 0.1.x, optional: true}
+  - {id: aipe.magnetics-database, version: 0.1.x, optional: true}
+  - {id: aipe.field-simulation, version: 0.1.x, optional: true}
+  - {id: aipe.cad-agent, version: 0.1.x, optional: true}
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: native}
+tools:
+  - id: python
+    name: Python
+    capabilities: [engineering-workflow-execution, workflow-task-graph, capability-discovery-client, engineering-state-provenance, verification-gate-ledger, engineering-report-assembly]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [windows, linux, macos]
+    url: https://www.python.org/
+    limitations: [Python 3.10 or newer; the engine validates states with the sibling AIPE-Core checkout's own validator.]
+  - id: ngspice
+    name: ngspice
+    capabilities: [environment-tool-qualification]
+    licence_class: open_source
+    optional: true
+    interfaces: [cli]
+    platforms: [windows, linux, macos]
+    url: https://ngspice.sourceforge.io/
+    limitations: [Qualified by an RC step-response test; circuit models are provided by AIPE-Simulation-Skills.]
+  - id: kicad
+    name: KiCad
+    capabilities: [environment-tool-qualification]
+    licence_class: open_source
+    optional: true
+    interfaces: [cli]
+    platforms: [windows, linux, macos]
+    url: https://www.kicad.org/
+    limitations: [Only kicad-cli presence and version are qualified here.]
+  - id: freecad
+    name: FreeCAD
+    capabilities: [environment-tool-qualification]
+    licence_class: open_source
+    optional: true
+    interfaces: [cli, python]
+    platforms: [windows, linux, macos]
+    url: https://www.freecad.org/
+    limitations: [Qualified by a headless box volume and STEP export test.]
+  - id: gmsh
+    name: Gmsh
+    capabilities: [environment-tool-qualification]
+    licence_class: open_source
+    optional: true
+    interfaces: [python, cli]
+    platforms: [windows, linux, macos]
+    url: https://gmsh.info/
+    limitations: [Qualified by a unit-cube tetrahedral mesh test through the Python SDK.]
+  - id: elmer
+    name: Elmer FEM
+    capabilities: [environment-tool-qualification]
+    licence_class: open_source
+    optional: true
+    interfaces: [cli, sif]
+    platforms: [windows, linux, macos]
+    url: https://github.com/ElmerCSC/elmerfem
+    limitations: [Qualified by a 2-D steady heat-conduction slab against the analytic temperature rise.]
+connectors: []
+validation:
+  status: tested
+  evidence: [tests/test_engine.py, tests/test_adapter_mappings.py, examples/dab-10kw/README.md, examples/dab-10kw/results/report.md]
+  limitations:
+    - The DAB reference run executes analytical design, ngspice Levels 1 and 2, waveform-informed magnetics, device screening and losses, SPS control baseline, cooling comparison and heat-sink screening, Gmsh/Elmer window and heat-sink FEM, and FreeCAD transformer and heat-sink geometry; PCB boards are produced by AIPE-PCB-Agent outside the task graph and CFD, manufacturer SPICE models (Level 3), measurement and hardware stages are not executed.
+    - Specialist results are analytical correlations, manufacturer data or executed numerical models with stated validity ranges; none is a measured value.
+    - A completed workflow run establishes software and simulation gates only; engineering review, experimental measurement and hardware qualification are separate statuses that this engine never asserts.
+    - Capability discovery reads manifests as data; it does not execute connectors or install software.
+documentation: [README.md, docs/architecture.md, docs/execution-envelope.md, docs/capability-matrix.md, workflows/converter_dab/README.md, examples/dab-10kw/README.md]

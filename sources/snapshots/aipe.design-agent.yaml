@@ -8,7 +8,7 @@ status: experimental
 maturity: prototype
 repository: https://github.com/FulongLi/AIPE-Design-Agent
 license: MIT
-capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation]
+capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation, dab-sps-analysis, thermal-cooling-screening]
 inputs:
   - {name: engineering-state, description: Explicit requirements and evidence in Core v0.1 state., schema: 'https://raw.githubusercontent.com/FulongLi/AIPE-Core/v0.1.0/schemas/engineering-state.schema.json'}
   - {name: registry, description: Complete generated capability index plus reviewed suitability assessments.}
@@ -20,13 +20,14 @@ dependencies:
   - {id: aipe.registry, version: 0.1.x, optional: false}
 compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: mapped}
 tools:
-  - {id: python, name: Python, capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation], licence_class: open_source, optional: false, interfaces: [cli, python], platforms: [linux, windows, macos], url: 'https://www.python.org/', limitations: ['Existing concept calculators and the new algebraic adapter do not establish physical validation or component suitability.']}
+  - {id: python, name: Python, capabilities: [engineering-orchestration, operating-point-analysis, converter-concept-calculation, dab-sps-analysis, thermal-cooling-screening], licence_class: open_source, optional: false, interfaces: [cli, python], platforms: [linux, windows, macos], url: 'https://www.python.org/', limitations: ['Existing concept calculators and the new algebraic adapter do not establish physical validation or component suitability.']}
 connectors: []
 validation:
   status: tested
-  evidence: [tests/test_orchestration.py, tests/test_calculator.py, tests/test_optimizer.py]
+  evidence: [tests/test_orchestration.py, tests/test_calculator.py, tests/test_optimizer.py, tests/test_dab_sps.py, tests/test_thermal_cooling.py, tests/test_thermal_heatsink_optimisation.py, tests/test_thermal_network.py, tests/test_thermal_electrothermal.py, tests/test_thermal_cli.py]
   limitations:
     - Technical suitability and fidelity require an explicit assessment; metadata alone is not an engineering guarantee.
     - Only a built-in nominal operating-point adapter executes through the new orchestrator; other tools remain reviewable plans.
     - Existing PEA calculator/UI APIs remain separate from the additive Core state path.
-documentation: [README.md, docs/ecosystem-orchestration.md, pea/review/README.md]
+    - pea.thermal results are analytical correlations (natural/forced convection, cold plate, spreading, Stage A Pareto screening) with stated validity ranges; they are not CFD, FEM or measured values and need the sibling HeatSinkOptimisation checkout.
+documentation: [README.md, docs/ecosystem-orchestration.md, pea/review/README.md, CONTRIBUTING.md]

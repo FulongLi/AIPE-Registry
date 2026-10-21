@@ -1,0 +1,38 @@
+schema_version: 0.1.0
+id: aipe.doc
+name: AIPE Doc
+type: presentation
+domains: [power-engineering, power-electronics]
+description: AIPE-branded HTML document and slide templates (A4 and 16:9 print layouts) with shared stylesheets, a link/asset validator and a preview server; the engineering review package of AIPE-Workflows is rendered in the document layout.
+status: active
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Doc
+license: NOASSERTION
+capabilities: [engineering-document-templates, html-report-presentation]
+inputs:
+  - name: report-data
+    description: 'Structured engineering content (text, tables, figures, evidence references) authored in HTML or rendered by a generator such as aipe_workflows.reporting.'
+outputs:
+  - name: html-document
+    description: 'Self-contained HTML document or slide deck using the shared assets, printable to PDF from a browser with the documented print settings.'
+dependencies: []
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: none}
+tools:
+  - id: node
+    name: Node.js
+    capabilities: [html-report-presentation]
+    licence_class: open_source
+    optional: true
+    interfaces: [cli]
+    platforms: [windows, linux, macos]
+    url: https://nodejs.org/
+    limitations: ['Only needed for scripts/check.mjs (link and asset validation) and scripts/serve.mjs (preview); templates open directly in a browser.']
+connectors: []
+validation:
+  status: schema_validated
+  evidence: [scripts/check.mjs]
+  limitations:
+    - 'check.mjs validates local links, ids and language pairs of the shipped templates; it does not validate engineering content.'
+    - 'PDF export relies on the browser print engine; no automated PDF generation is included.'
+    - 'Repository content has no declared licence (NOASSERTION); brand assets are AIPE Labs material.'
+documentation: [README.md, docs/guide.html, templates/report-engineering.html]
