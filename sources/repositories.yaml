@@ -28,3 +28,8 @@ repositories:
     ref: feat/dab-10kw-workflow
     state: pending_pr
     path: aipe.yaml
+  - id: aipe.pcb-agent
+    repository: https://github.com/FulongLi/AIPE-PCB-Agent
+    ref: feat/dab-10kw-workflow
+    state: pending_pr
+    path: aipe.yaml

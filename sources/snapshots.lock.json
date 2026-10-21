@@ -41,10 +41,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "2d9c45fe3b70f6231fdda261c49555a245fd4306",
-      "committed_at": "2026-10-07T18:58:27+01:00",
+      "commit": "8e81547c745324b3dac2684146f68e0fc706f9bf",
+      "committed_at": "2026-10-21T14:54:49+08:00",
       "id": "aipe.design-agent",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "refs/pull/1/head",
@@ -54,10 +54,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "f7c74e55dbcb2d433847c4bb80cc89ce2e78c0cd",
-      "committed_at": "2026-10-20T02:53:48+01:00",
+      "commit": "3fbc8d93b8c2703a5386393b6aea756321f276da",
+      "committed_at": "2026-10-21T14:54:50+08:00",
       "id": "aipe.doc",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "feat/dab-10kw-workflow",
@@ -67,10 +67,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "3db0c1f2bc718930005d3aaf9da40468d2caddb2",
-      "committed_at": "2026-10-21T04:14:03+01:00",
+      "commit": "278c8ee35b3e1b617b2049a3cee30e01417d210c",
+      "committed_at": "2026-10-21T14:54:49+08:00",
       "id": "aipe.field-simulation",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "feat/dab-10kw-workflow",
@@ -93,10 +93,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "59eff8b58186b1239f00bb12685738a2da109017",
-      "committed_at": "2026-10-20T20:40:45+01:00",
+      "commit": "617e9005fc8a418c90ffa99f34dba5068412478e",
+      "committed_at": "2026-10-21T14:54:50+08:00",
       "id": "aipe.magnetics-database",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "refs/pull/1/head",
@@ -119,8 +119,21 @@
       "state": "pending_pr"
     },
     {
-      "commit": "3ed4f5271b319f68b469fd054cfb94b69627cb81",
-      "committed_at": "2026-10-21T00:41:35+01:00",
+      "commit": "4b9d1a8ec24ea2196623fb2a03c36fc068522813",
+      "committed_at": "2026-10-15T17:49:52+01:00",
+      "id": "aipe.pcb-agent",
+      "manifest_dirty": true,
+      "origin": "local_checkout",
+      "path": "aipe.yaml",
+      "ref": "feat/dab-10kw-workflow",
+      "repository": "https://github.com/FulongLi/AIPE-PCB-Agent",
+      "sha256": "6e81baa1a6b229623b9d199fa021e1f05d9ccd921017923d81ecbe90426289e6",
+      "snapshot": "snapshots/aipe.pcb-agent.yaml",
+      "state": "pending_pr"
+    },
+    {
+      "commit": "1d4c0680b9711dafe038a94058380043faa5f507",
+      "committed_at": "2026-10-21T14:57:53+08:00",
       "id": "aipe.presentation",
       "manifest_dirty": false,
       "origin": "local_checkout",
@@ -132,8 +145,8 @@
       "state": "pending_pr"
     },
     {
-      "commit": "f419260bc604e5e79ecde9d998139a39a5e0ebdf",
-      "committed_at": "2026-10-08T16:45:43+01:00",
+      "commit": "f5bbe6b23b02d5e14737bbced926367bf01157ea",
+      "committed_at": "2026-10-21T14:57:53+08:00",
       "id": "aipe.registry",
       "manifest_dirty": false,
       "origin": "local_checkout",
@@ -145,10 +158,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "52ec17db4098e96078ac10d683aceddf999e5c94",
-      "committed_at": "2026-10-07T18:43:34+01:00",
+      "commit": "067c57fdd6f3c8c01e860f3964190c409233b5c2",
+      "committed_at": "2026-10-21T14:54:50+08:00",
       "id": "aipe.semiconductor-database",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "refs/pull/2/head",
@@ -158,10 +171,10 @@
       "state": "pending_pr"
     },
     {
-      "commit": "454738f06547e5ccca1087c6d33e83c67a4d6c86",
-      "committed_at": "2026-10-07T18:59:31+01:00",
+      "commit": "14e4e1735c5b2f90ee9e73a8056325f752793778",
+      "committed_at": "2026-10-21T14:55:05+08:00",
       "id": "aipe.simulation-skills",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "refs/pull/1/head",
@@ -184,10 +197,10 @@
       "state": "pinned"
     },
     {
-      "commit": "2f5448b8d1ebc012dac60313ba7b05ee8f3d4120",
-      "committed_at": "2026-10-21T04:14:49+01:00",
+      "commit": "f22ad2dc2a5900df9218c98b628fdc1b9eb3fc36",
+      "committed_at": "2026-10-21T15:01:23+08:00",
       "id": "aipe.workflows",
-      "manifest_dirty": true,
+      "manifest_dirty": false,
       "origin": "local_checkout",
       "path": "aipe.yaml",
       "ref": "feat/dab-10kw-workflow",

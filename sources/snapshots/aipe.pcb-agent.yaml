@@ -1,0 +1,76 @@
+schema_version: 0.1.0
+id: aipe.pcb-agent
+name: AIPE PCB Agent
+type: agent
+domains: [power-electronics, pcb-design, cad-automation]
+description: Reproducible KiCad 10 automation for power-electronics PCBs - deterministic hierarchical schematic and footprint-library generation from a shared part model, native board construction with courtyard- and insulation-aware placement, a reusable grid router, native kicad-cli ERC/DRC and export wrappers with hashed manifests, geometric layout checkers, a reference-derived engineering knowledge base, and requirement-file-driven generators (SiC buck V1-V3 and the 10 kW DAB three-board set).
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-PCB-Agent
+license: MIT
+capabilities: [kicad-schematic-generation, kicad-footprint-library-preparation, kicad-board-placement, grid-routing, native-erc-drc-verification, manufacturing-export-manifests, pcb-layout-metrics, insulation-coordination-rules, power-electronics-knowledge-retrieval, requirement-driven-pcb-generation]
+inputs:
+  - {name: requirement-files, description: 'YAML/JSON requirement set of a converter (specification, design constraints with the insulation-coordination reference table and stack-ups, component selections with sources, interface pin maps, floorplan and routing inputs), e.g. examples/dab-10kw/requirements.'}
+  - {name: part-model, description: 'Ordered part list in the shared AIPE model format (ref, value, footprint, pad -> net map, typed pins, page, kind, provenance) built on sic_buck_common.Circuit.'}
+  - {name: kicad-installation, description: 'An existing KiCad 10 installation (kicad-cli, bundled Python with pcbnew, official symbol and footprint libraries) discovered through automation.setup.detect_kicad; nothing is installed by the tooling.'}
+outputs:
+  - {name: kicad-project, description: 'Native .kicad_pro / .kicad_sch (hierarchical) / .kicad_pcb / .kicad_dru with project symbol and footprint libraries, stack-up, net classes and derived design rules.'}
+  - {name: verification-manifests, description: 'run.json manifests of every kicad-cli ERC/DRC run (command, source and dependency hashes, finding counts, report hash), netlist-equality, routing-quality and layout-metric JSON records.'}
+  - {name: manufacturing-exports, description: 'Gerbers, Excellon drill and report, BOM CSV, pick-and-place CSV, STEP, schematic and layout PDFs, renders and XML netlist with an export-manifest.json of commands, exit codes and SHA-256 hashes.'}
+  - {name: review-documents, description: 'Architecture and review reports that state the CAD evidence and the open human-review items; a clean ERC/DRC is a CAD statement, not a qualification.'}
+dependencies:
+  - {id: aipe.core, version: 0.1.x, optional: true}
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: mapped}
+tools:
+  - id: kicad
+    name: KiCad 10 (kicad-cli, pcbnew Python)
+    capabilities: [kicad-schematic-generation, kicad-footprint-library-preparation, kicad-board-placement, native-erc-drc-verification, manufacturing-export-manifests]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [windows, linux, macos]
+    url: 'https://www.kicad.org/'
+    limitations: ['GPL-3.0-or-later; KiCad 10.0.6 qualified on Windows 11; the pcbnew stages run under KiCad''s bundled Python (3.11, numpy, no PyYAML), the schematic and export stages under a host Python 3.10+. Located through AIPE_KICAD_CLI, .aipe/local-tools.json, PATH or the conventional install folders; never installed by the tooling.']
+  - id: python
+    name: Python
+    capabilities: [grid-routing, pcb-layout-metrics, insulation-coordination-rules, power-electronics-knowledge-retrieval, requirement-driven-pcb-generation]
+    licence_class: open_source
+    optional: false
+    interfaces: [python, cli]
+    platforms: [windows, linux, macos]
+    url: 'https://www.python.org/'
+    limitations: ['Python 3.10+ with numpy; PyYAML optional (a subset parser covers the requirement files); Shapely optional on the host for pour merging and copper-island analysis; pytest for the test suite.']
+connectors: []
+validation:
+  status: tested
+  evidence:
+    - tests/test_dab_v1.py
+    - tests/test_grid_router.py
+    - tests/test_project_schematic.py
+    - tests/test_project_footprints.py
+    - tests/test_check_sic_layout.py
+    - tests/test_sic_v3.py
+    - examples/sic-buck-400v-200v-5kw-v3/verification/final_validation.json
+    - docs/dab-10kw/review-report.md
+  limitations:
+    - 'Tested means: 392 host-side unit tests (unittest/pytest) plus native kicad-cli ERC/DRC runs recorded as hashed manifests under the examples; nothing has been fabricated, energised or measured.'
+    - 'Zero native ERC/DRC findings are statements about the generated files under the recorded rule set; they establish neither electrical safety nor insulation compliance nor manufacturability. Insulation-coordination values are IEC 60664-1 reference inputs labelled to-be-reviewed.'
+    - 'Routing is a deterministic grid-router proposal; incomplete routings are reported as unresolved connections and remain visible in the DRC reports (see docs/dab-10kw/review-report.md for the DAB-V1 status).'
+    - 'Several pin tables and the controlCARD contact map of the DAB-V1 example are transcribed assumptions recorded in automation/dab_v1/parts.py and examples/dab-10kw/requirements/interfaces.yaml.'
+documentation:
+  - README.md
+  - docs/architecture.md
+  - docs/agent-workflow.md
+  - docs/pcb-design-rules.md
+  - docs/knowledge-system.md
+  - docs/dab-10kw/architecture-review.md
+  - docs/dab-10kw/review-report.md
+  - examples/dab-10kw/README.md
+  - examples/sic-buck-400v-200v-5kw-v3/README.md
+extensions:
+  aipe.pcb-agent:
+    python_package: automation
+    generators: [automation.dab_v1, automation.sic_v3, automation.kicad_tools]
+    requirement_files: examples/dab-10kw/requirements
+    tool_discovery: {env: [AIPE_KICAD_CLI, AIPE_KICAD_DATA, AIPE_KICAD_PYTHON], config: .aipe/local-tools.json, fallbacks: [PATH, 'Program Files/KiCad/*/bin', 'AppData/Local/Programs/KiCad/*/bin']}
+    standalone_operation: {requires_aipe_core: false, requires_registry_service: false, requires_commercial_software: false, requires_network: false}
