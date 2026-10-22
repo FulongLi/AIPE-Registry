@@ -1,0 +1,76 @@
+schema_version: 0.1.0
+id: aipe.electrical-design
+name: AIPE Electrical Design
+type: tool
+domains: [power-engineering, power-electronics]
+description: >-
+  Analytical electrical design models with explicit SI units and sign conventions - lossless
+  single-phase-shift dual-active-bridge analysis, CCM DC-DC sizing and first-order buck losses -
+  packaged as aipe_electrical. Formerly the AIPE Design Agent (id aipe.design-agent); the legacy PEA
+  application is archived at Git tag legacy-pea-v0.1.
+status: experimental
+maturity: prototype
+repository: https://github.com/FulongLi/AIPE-Electrical-Design
+license: MIT
+capabilities: [dab-sps-analysis, dab-sps-design-sweep, dcdc-ccm-sizing, buck-loss-first-order]
+inputs:
+  - name: sps-operating-point
+    description: >-
+      Port voltages, turns ratio N_p/N_s, switching frequency, total primary-referred series inductance
+      and either a signed phase shift (rad or deg) or a signed power; JSON keys carry SI unit suffixes.
+  - name: dcdc-specification
+    description: >-
+      Input and output voltage, output current, switching frequency and ripple fractions for CCM sizing
+      of buck, boost, inverting buck-boost, SEPIC or Cuk stages.
+outputs:
+  - name: sps-analysis
+    description: >-
+      Power, maximum power, DC port currents, exact RMS and peak series currents, switching-instant
+      currents, ZVS current-direction conditions with an evidence label and waveform breakpoints;
+      quantities carry SI units.
+  - name: sps-design
+    description: >-
+      Total primary-referred series inductance for a power at a phase shift plus the resulting current
+      stresses (replaces the legacy dab_design calculator).
+  - name: dcdc-ccm-design
+    description: Duty cycle, inductances, capacitances and inductor current stresses of the small-ripple CCM model.
+dependencies: []
+compatibility: {core: 0.1.x, engineering_state: 0.1.x, integration: mapped}
+tools:
+  - id: python
+    name: Python
+    capabilities: [dab-sps-analysis, dab-sps-design-sweep, dcdc-ccm-sizing, buck-loss-first-order]
+    licence_class: open_source
+    optional: false
+    interfaces: [cli, python]
+    platforms: [linux, windows, macos]
+    url: https://www.python.org/
+    limitations:
+      - Lossless idealised models; results are analytical references, not simulated or measured values.
+connectors: []
+validation:
+  status: tested
+  evidence:
+    - tests/test_dab_sps.py
+    - tests/test_dab_sps_sweep.py
+    - tests/test_dcdc.py
+    - tests/test_losses.py
+    - tests/test_waveforms.py
+    - tests/test_pareto.py
+    - tests/test_json_io.py
+    - tests/test_cli.py
+    - .github/workflows/ci.yml
+  limitations:
+    - >-
+      The SPS model assumes ideal switches, zero dead time, stiff DC ports, an ideal transformer with
+      negligible magnetising current and no losses; |phi| <= pi/2.
+    - ZVS results are necessary current-direction conditions of the lossless model, not charge-based ZVS verification.
+    - >-
+      CCM sizing uses the small-ripple approximation with ESR/ESL neglected; the buck loss estimate omits
+      gate drive, Coss, reverse recovery, dead time and core loss.
+    - The design-space sweep screens the electrical operating point only; losses, magnetics, thermal behaviour and cost are not modelled.
+    - >-
+      Mapping of results into Core engineering state is performed by the AIPE-Workflows adapter; this
+      package emits unit-tagged quantities, not engineering-state documents.
+    - Thermal models formerly under pea.thermal are provided by AIPE-Thermal-Design (aipe_thermal), not by this package.
+documentation: [README.md, docs/models.md, docs/migration.md, CHANGELOG.md]
